@@ -1,37 +1,58 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\HomeController;
 
-Route::get('/', [\App\Http\Controllers\HomeController::class, "home"])
-    ->name('home');
+// Rutas Públicas
+Route::get('/', [HomeController::class, "home"])->name('home');
+Route::get('/acerca-de', [HomeController::class, "about"])->name('about');
+Route::get('/contacto', [HomeController::class, "contact"])->name('contact');
 
-Route::get('/acerca-de', [\App\Http\Controllers\HomeController::class, "about"])
-    ->name('about');
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
 
-Route::get('/contacto', [\App\Http\Controllers\HomeController::class, "contact"])
-    ->name('contact');
+// Ruta para enviar formulario de contacto
+Route::post('/contact', function (Request $request) {
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'message' => 'required|string',
+    ]);
 
-Route::get('peliculas/listado', [App\Http\Controllers\MovieController::class, "index"])
-    ->name('movies.index');
+    return redirect()->route('contact.sent');
+})->name('contact.submit');
 
-Route::get('peliculas/{id}', [App\Http\Controllers\MovieController::class, "view"])
-    ->name('movies.view')
-    ->whereNumber('id');
+// Ruta para confirmación de envío
+Route::get('/contact/sent', function () {
+    return view('sent');
+})->name('contact.sent');
 
-Route::get('peliculas/publicar', [App\Http\Controllers\MovieController::class, "creatForm"])
-    ->name('movies.create.form');
+// Ruta pública para mostrar todos los servicios
+Route::get('/servicios', [ServiceController::class, 'index'])->name('services.index'); // Cambiado a 'services.index'
 
-Route::get('peliculas/{id}/editar', [App\Http\Controllers\MovieController::class, "editForm"])
-    ->name('movies.edit.form')
-    ->whereNumber('id');
+// Rutas de administración
+Route::prefix('admin')->group(function () {
+    // Rutas de servicios
+    Route::resource('services', ServiceController::class)->names([
+        'index' => 'admin.services.index',
+        'create' => 'admin.services.create',
+        'store' => 'admin.services.store',
+        'edit' => 'admin.services.edit',
+        'update' => 'admin.services.update',
+        'destroy' => 'admin.services.destroy',
+    ]);
 
-Route::post('peliculas/{id}/editar', [App\Http\Controllers\MovieController::class, "editProcess"])
-    ->name('movies.edit.process')
-    ->whereNumber('id');
-
-Route::post('peliculas/{id}/eliminar', [App\Http\Controllers\MovieController::class, "deleteProcess"])
-    ->name('movies.delete.process')
-    ->whereNumber('id');
-
-Route::post('peliculas/publicar', [App\Http\Controllers\MovieController::class, "creatProcess"])
-    ->name('movies.create.process');
+    // Rutas de usuarios
+    Route::resource('users', UsersController::class)->names([
+        'index' => 'admin.users.index',
+        'create' => 'admin.users.create',
+        'store' => 'admin.users.store',
+        'edit' => 'admin.users.edit',
+        'update' => 'admin.users.update',
+        'destroy' => 'admin.users.destroy',
+    ]);
+});
