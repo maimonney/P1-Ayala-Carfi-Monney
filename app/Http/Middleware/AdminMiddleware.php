@@ -16,4 +16,6 @@ class AdminMiddleware
 
         return redirect()->route('home')->with('error', 'Acceso denegado.'); 
     }
+
+    
 }

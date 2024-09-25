@@ -5,10 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title')</title>
+    <link rel="stylesheet" href="{{ asset('css/estilo.css') }}">
     <link href=" {{ url('css/bootstrap.min.css') }} " rel="stylesheet">
 </head>
 
-<body>
+<body class="body">
     @if(session()->has('feedback.message'))
     <div class="container">
         <div class="row">

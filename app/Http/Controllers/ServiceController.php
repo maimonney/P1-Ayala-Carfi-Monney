@@ -11,7 +11,13 @@ class ServiceController extends Controller
     public function index()
     {
         $services = Service::all(); // O el método que estés utilizando para obtener los servicios
-        return view('service.index', compact('services'));
+        return view('servicios.index', compact('services'));
+    }
+
+    public function indexAdmin()
+    {
+        $services = Service::all(); // O el método que estés utilizando para obtener los servicios
+        return view('admin.service.index', compact('servicios'));
     }
 
     // Mostrar un formulario para crear un nuevo servicio
@@ -41,10 +47,12 @@ class ServiceController extends Controller
     }
 
     // Mostrar un servicio específico
-    public function show(Service $service)
-    {
-        return view('admin.services.show', compact('service'));
-    }
+    public function show($id)
+{
+    $service = Service::findOrFail($id);
+    return view('admin.services.show', compact('service'));
+}
+
 
     // Mostrar un formulario para editar un servicio
     public function edit(Service $service)

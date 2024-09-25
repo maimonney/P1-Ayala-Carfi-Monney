@@ -1,28 +1,45 @@
 <div>
-    <nav class="navbar navbar-expand-lg bg-info-subtle">
+    <nav class="navbar navbar-expand-lg cont_nav">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Nova</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
-                <span class="navbar-toggler-icon"> </span>
-            </button>
-            <div class="collapse navbar-collapse" id="navMain">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <x-nav-link route="home"> Inicio </x-nav-link>
-                    </li>
-                    <li class="nav-item">
-                        <x-nav-link route="about"> Conocenos </x-nav-link>
-                    </li>
-                    <li class="nav-item">
-                        <x-nav-link route="contact"> Contacto </x-nav-link>
-                    </li>
-                    <li class="nav-item">
-                        <x-nav-link route="services.index">Servicios</x-nav-link>
-                    </li>
+            <div class="cont_navegacion">
+                <a class="navbar-brand" href="#">Nova</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+                    <span class="navbar-toggler-icon"> </span>
+                </button>
+                <div class="collapse navbar-collapse" id="navMain">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <x-nav-link route="home"> Inicio </x-nav-link>
+                        </li>
+                        <li class="nav-item">
+                            <x-nav-link route="about"> Conocenos </x-nav-link>
+                        </li>
+                        <li class="nav-item">
+                            <x-nav-link route="contact"> Contacto </x-nav-link>
+                        </li>
+                        <li class="nav-item">
+                            <x-nav-link route="servicios.index">Servicios</x-nav-link>
+                        </li>
 
-                </ul>
+                    </ul>
 
+                </div>
             </div>
-
+            <div>
+            <ul class="navbar-nav">
+                @auth
+                    <li class="nav-item">
+                        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                            @csrf
+                            <button type="submit" class="cerrar nav-link">Cerrar Sesión</button>
+                        </form>
+                    </li>
+                @else
+                    <li class="nav-item">
+                        <x-nav-link route="login">Inicio de Sesión</x-nav-link>
+                    </li>
+                @endauth
+                </ul>
+            </div>
         </div>
 </div>
