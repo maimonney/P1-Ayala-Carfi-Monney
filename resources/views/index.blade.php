@@ -14,37 +14,43 @@
                 <!-- Bienvenida -->
                 <div class="text-center cont_div cont_rosa d-flex align-items-center">
                     <img class="w-23" src="{{ asset('img/ilustracion_1.png') }}" alt="Ilustracion de diseño">
-                        <div>
+                    <div>
                         <h1 class="display-4">Bienvenido a Nova</h1>
                         <p class="lead">Ofrecemos los mejores servicios para satisfacer tus necesidades.</p>
-                        <a class="btn btn_service btn-lg mt-4" href="{{ route('servicios.index') }}" role="button">Ver
-                        Servicios</a>
-                        </div>
+                        <a class="btn btn_service btn-lg mt-4" href="{{ route('servicios.vista') }}" role="button">Ver
+                            Servicios</a>
+                    </div>
                 </div>
 
                 <!-- Destacados -->
                 <div>
                     <h2 class="mt-5">Nuestros Servicios Destacados</h2>
                     <div class="row">
-                        <div class="card cont_div" style="width: 18rem;">
-                            <img src="..." class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.</p>
+                        @foreach($publicServices as $service)
+                            <div class="col-md-4"> <!-- Ajusta el tamaño de columna según tu diseño -->
+                                <div class="card cont_div" style="width: 18rem;">
+                                    <img src="{{ asset('storage/' . $service->image) }}" class="card-img-top"
+                                        alt="{{ $service->title }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $service->title }}</h5>
+                                        <p class="card-text">{{ $service->description }}</p>
+                                    </div>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">Precio: {{ $service->price }} </li>
+                                        <li class="list-group-item">An item</li>
+                                        <!-- Modifica o elimina según sea necesario -->
+                                        <li class="list-group-item">A second item</li>
+                                    </ul>
+                                    <div class="card-body">
+                                        <a href="#" class="card-link">Card link</a>
+                                        <a href="#" class="card-link">Another link</a>
+                                    </div>
+                                </div>
                             </div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">An item</li>
-                                <li class="list-group-item">A second item</li>
-                                <li class="list-group-item">A third item</li>
-                            </ul>
-                            <div class="card-body">
-                                <a href="#" class="card-link">Card link</a>
-                                <a href="#" class="card-link">Another link</a>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
+
 
                 <!-- Articulo Blog -->
                 <div>
@@ -67,8 +73,8 @@
                     <h2 class="mt-5">¿Necesitas más información?</h2>
                     <p>Contáctanos para obtener un presupuesto personalizado o si tienes alguna consulta.</p>
                     <div>
-                    <a class="btn btn_conocenos m-2" href="{{ route('about') }}" role="button">Conocenos</a>
-                    <a class="btn btn_contacto m-2" href="{{ route('contact') }}" role="button">Contáctanos</a>
+                        <a class="btn btn_conocenos m-2" href="{{ route('about') }}" role="button">Conocenos</a>
+                        <a class="btn btn_contacto m-2" href="{{ route('contact') }}" role="button">Contáctanos</a>
                     </div>
 
                 </div>

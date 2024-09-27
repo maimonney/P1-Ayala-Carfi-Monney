@@ -18,7 +18,7 @@
                             <x-nav-link route="contact"> Contacto </x-nav-link>
                         </li>
                         <li class="nav-item">
-                            <x-nav-link route="servicios.index">Servicios</x-nav-link>
+                            <x-nav-link route="servicios.vista">Servicios</x-nav-link>
                         </li>
 
                     </ul>

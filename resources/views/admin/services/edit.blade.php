@@ -15,12 +15,15 @@
                 </div>
             @endif
 
-            <form action="{{ route('admin.services.update', $service->id) }}" method="POST">
+            <form action="{{ route('admin.services.update', $service->id) }}" method="POST"
+                enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
+
                 <div class="mb-3">
                     <label for="title" class="form-label">Título</label>
-                    <input type="text" name="title" id="title" class="form-control" value="{{ old('title', $service->title) }}">
+                    <input type="text" name="title" id="title" class="form-control"
+                        value="{{ old('title', $service->title) }}">
                     @error('title')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
@@ -28,7 +31,8 @@
 
                 <div class="mb-3">
                     <label for="description" class="form-label">Descripción</label>
-                    <textarea name="description" id="description" class="form-control">{{ old('description', $service->description) }}</textarea>
+                    <textarea name="description" id="description"
+                        class="form-control">{{ old('description', $service->description) }}</textarea>
                     @error('description')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
@@ -36,10 +40,21 @@
 
                 <div class="mb-3">
                     <label for="price" class="form-label">Precio</label>
-                    <input type="text" name="price" id="price" class="form-control" value="{{ old('price', $service->price) }}">
+                    <input type="text" name="price" id="price" class="form-control"
+                        value="{{ old('price', $service->price) }}">
                     @error('price')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="image" class="form-label">Imagen</label>
+                    <input type="file" name="image" id="image" class="form-control">
+                    @if ($service->image)
+                        <p class="mt-2">Imagen actual:</p>
+                        <img src="{{ asset($service->image) }}" alt="{{ $service->title }}" class="img-thumbnail"
+                            style="max-width: 200px;">
+                    @endif
                 </div>
 
                 <button type="submit" class="btn btn-primary">Actualizar Servicio</button>

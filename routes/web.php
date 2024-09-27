@@ -13,10 +13,6 @@ Route::get('/', [HomeController::class, "home"])->name('home');
 Route::get('/acerca-de', [HomeController::class, "about"])->name('about');
 Route::get('/contacto', [HomeController::class, "contact"])->name('contact');
 
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact');
-
 // Ruta para enviar formulario de contacto
 Route::post('/contact', function (Request $request) {
     $request->validate([
@@ -34,7 +30,7 @@ Route::get('/contact/sent', function () {
 })->name('contact.sent');
 
 // Ruta pública para mostrar todos los servicios
-Route::get('/servicios', [ServiceController::class, 'index'])->name('servicios.index');
+Route::get('/servicios', [ServiceController::class, 'filtro'])->name('servicios.vista');
 
 // Rutas de registro y autenticación
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
@@ -57,6 +53,7 @@ Route::prefix('admin')->group(function () {
     })->name('admin.index');
 
     // Rutas de servicios
+    Route::get('/servicios', [ServiceController::class, 'index'])->name('admin.services.index');
     Route::resource('servicios', ServiceController::class)->names([
         'index' => 'admin.services.index',
         'create' => 'admin.services.create',
