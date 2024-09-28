@@ -26,19 +26,23 @@
                 </div>
             </div>
             <div>
-            <ul class="navbar-nav">
-                @auth
-                    <li class="nav-item">
-                        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                            @csrf
-                            <button type="submit" class="cerrar nav-link">Cerrar Sesión</button>
-                        </form>
-                    </li>
-                @else
-                    <li class="nav-item">
-                        <x-nav-link route="login">Inicio de Sesión</x-nav-link>
-                    </li>
-                @endauth
+                <ul class="navbar-nav">
+
+                    @if (auth()->check())
+                    <li class="nav-link nombre_nav">Hola, <strong>{{ auth()->user()->name }}</strong>!</li>
+                    @endif
+                    @auth
+                        <li class="nav-item">
+                            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                                @csrf
+                                <button type="submit" class="cerrar nav-link">Cerrar Sesión</button>
+                            </form>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <x-nav-link route="login">Inicio de Sesión</x-nav-link>
+                        </li>
+                    @endauth
                 </ul>
             </div>
         </div>

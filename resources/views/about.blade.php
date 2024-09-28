@@ -12,14 +12,14 @@
 
             <!-- Contenido -->
             <div class="container mt-5">
-                <div class="cont_div cont_rosa">
+                <div class="cont_div cont_rosa mb-5">
                     <h1 class="mt-5">Acerca de Nosotros</h1>
                     <p class="lead">En Nova, nos dedicamos a ofrecer los mejores servicios para satisfacer tus
                         necesidades.
                     </p>
                 </div>
 
-                <div class="cont_VM mt-5">
+                <div class="cont_VM mt-5 mb-5">
                     <div class="cont_div cont_verde">
                         <h2>Nuestra Misión</h2>
                         <p>Proporcionar soluciones de alta calidad en desarrollo web, mantenimiento y SEO, ayudando a
@@ -34,7 +34,7 @@
                     </div>
                 </div>
 
-                <div class="cont_div cont_rojo mt-5">
+                <div class="cont_div cont_rojo mt-5 mb-5">
                     <h2>¿Por qué elegirnos?</h2>
                     <ul>
                         <li>Experiencia: Contamos con un equipo de profesionales altamente capacitados.</li>
@@ -45,7 +45,7 @@
                 </div>
 
 
-                <div class="mt-5 text-center">
+                <div class="mt-5 text-center mb-5">
                     <h2>Nuestro Equipo</h2>
                     <p>Estamos compuestos por un grupo diverso de expertos en diferentes áreas del desarrollo digital.
                     </p>

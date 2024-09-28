@@ -1,48 +1,55 @@
 @extends('layouts.main')
 
-@section('title', 'Listado de usuarios')
+@section('title', 'Listado de Usuarios')
 
 @section('content')
 
-<div class="container">
-   <div class="row">
-        <div class="col-12">
-            <h1 class="text-center">Listado de usuarios</h1>
-            <div class="mb-3 d-flex justify-content-center">
-                <a href="{{ route('admin.users.create') }}" class="text-decoration-none text-white bg-primary rounded p-2 px-3">Agregar Nuevo Usuario</a>
-            </div>
+<div>
+    <x-nav_admin></x-nav_admin>
 
-            <table class="table table-bordered table-striped">
-                <thead>
+    <div class="container mt-5">
+        <h1 class="text-center">Listado de Usuarios</h1>
+        <div class="mb-3 d-flex justify-content-center">
+            <a href="{{ route('admin.users.create') }}" class="button btn_celeste">Agregar Nuevo Usuario</a>
+        </div>
+
+        <table class="table_cont">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($users as $user)
                     <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Email</th>
-                        <th>Rol</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($users as $user) <!-- Cambia $services a $users -->
-                        <tr>
-                            <td>{{ $user->id }}</td> 
-                            <td>{{ $user->name }}</td> 
-                            <td>{{ $user->email }}</td> 
-                            <td>{{ $user->role }}</td> 
-                            <td>
-                                <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-secondary ms-2">Editar</a>
-                                <form action="{{ route('admin.users.destroy', $user->id) }}" method="post" style="display:inline;">
+                        <td>{{ $user->id }}</td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->role }}</td>
+                        <td>
+                            <div class="cont_btn_tab">
+                                <a href="{{ route('admin.users.edit', $user->id) }}"
+                                    class="button btn_celeste me-4">Editar</a>
+                                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
+                                    style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <input type="submit" onclick="return confirm('¿Está seguro de eliminar este usuario?')" class="btn btn-danger ms-2" value="Eliminar">
+                                    <input type="submit" onclick="return confirm('¿Está seguro de eliminar este usuario?')"
+                                        class="button btn_rojo" value="Eliminar">
                                 </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
+
+    <x-footer></x-footer>
 </div>
 
 @endsection

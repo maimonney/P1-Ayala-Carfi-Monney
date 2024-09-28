@@ -1,63 +1,76 @@
 @extends('layouts.main')
 
-@section('title', 'Agregar Nuevo Usuario')
+@section('title', 'Nuevo Usuario')
 
 @section('content')
+<div>
+    <x-nav_admin></x-nav_admin>
+    <div class="mt-5 cont_div_admin">
+        <h1 class="mb-3">Agregar Nuevo Usuario</h1>
 
-<div class="container">
-    <h1 class="text-center">Agregar Nuevo Usuario</h1>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                Hay errores en los datos del formulario. Por favor, revisarlos y volver a intentar.
+            </div>
+        @endif
 
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+        <form action="{{ route('admin.users.store') }}" method="POST" class="cont_form_admin">
+            @csrf
+
+            <div class="form_admin">
+                <div class="col-md-6">
+                    <!-- NOMBRE -->
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nombre</label>
+                        <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}" required>
+                        @error('name')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- EMAIL -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required>
+                        @error('email')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- ROL -->
+                    <div class="mb-3 select_form">
+                        <label for="role" class="form-label">Rol</label>
+                        <select name="role" id="role" class="form-control" required>
+                            <option value="">Seleccione un rol</option>
+                            <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Administrador</option>
+                            <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>Usuario</option>
+                        </select>
+                        @error('role')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- CONTRASEÑA -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input type="password" name="password" id="password" class="form-control" required>
+                        @error('password')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- CONFIRMAR CONTRASEÑA -->
+                    <div class="mb-3">
+                        <label for="password_confirmation" class="form-label">Confirmar Contraseña</label>
+                        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required>
+                    </div>
                 </div>
-            @endif
+            </div>
 
-            <form action="{{ route('admin.users.store') }}" method="POST">
-                @csrf
-
-                <div class="mb-3">
-                    <label for="name" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="email" class="form-label">Correo Electrónico</label>
-                    <input type="email" class="form-control" id="email" name="email" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="password" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="password_confirmation" class="form-label">Confirmar Contraseña</label>
-                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
-                        required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="role" class="form-label">Rol</label>
-                    <select name="role" id="role" class="form-control" required>
-                        <option value="admin">Admin</option>
-                        <option value="user">Usuario</option>
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <button type="submit" class="btn btn-primary">Agregar Usuario</button>
-                    <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">Volver al Listado</a>
-                </div>
-            </form>
-        </div>
+            <button type="submit" class="button btn_celeste">Agregar Usuario</button>
+        </form>
     </div>
-</div>
 
+    <x-footer></x-footer>
+</div>
 @endsection

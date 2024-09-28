@@ -14,12 +14,19 @@ class ServiceFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->sentence(), 
-            'description' => $this->faker->paragraph(), 
-            'price' => $this->faker->randomFloat(2, 10, 100), 
-            'duration' => $this->faker->randomElement(['1 semana', '2 semanas', '1 mes', '3 meses']), 
-            'category' => $this->faker->randomElement(['Desarrollo Web', 'Marketing', 'Diseño Gráfico']), 
-            'image' => 'default.png', 
+            'title' => $this->faker->sentence(),
+            'description' => $this->faker->paragraph(),
+            'price' => $this->faker->randomFloat(2, 10, 100),
+            'duration' => $this->faker->randomElement(['1 semana', '2 semanas', '1 mes', '3 meses']),
+            'category' => $this->faker->randomElement([
+                'Desarrollo Web',
+                'Marketing',
+                'Diseño Gráfico',
+                'SEO',
+                'Social Media',
+                'Desarrollo de Apps'
+            ]),
+            'image' => 'default.png',
         ];
     }
 }

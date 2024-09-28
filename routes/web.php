@@ -12,6 +12,15 @@ use App\Http\Controllers\RegisterController;
 Route::get('/', [HomeController::class, "home"])->name('home');
 Route::get('/acerca-de', [HomeController::class, "about"])->name('about');
 Route::get('/contacto', [HomeController::class, "contact"])->name('contact');
+Route::get('/servicios', [ServiceController::class, 'show'])->name('servicios.vista');
+
+// Muestra 3 servicios en el index
+Route::get('/', [ServiceController::class, 'home'])->name('home');
+
+// Vista de servicios
+Route::get('/servicios', [ServiceController::class, 'show'])->name('servicios.vista');
+Route::get('/servicios/{id}', [ServiceController::class, 'vistaIndividual'])->name('servicios.show');
+
 
 // Ruta para enviar formulario de contacto
 Route::post('/contact', function (Request $request) {
@@ -28,9 +37,6 @@ Route::post('/contact', function (Request $request) {
 Route::get('/contact/sent', function () {
     return view('sent');
 })->name('contact.sent');
-
-// Ruta pública para mostrar todos los servicios
-Route::get('/servicios', [ServiceController::class, 'filtro'])->name('servicios.vista');
 
 // Rutas de registro y autenticación
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');

@@ -12,48 +12,46 @@
 
             <div class="container mt-5">
                 <!-- Bienvenida -->
-                <div class="text-center cont_div cont_rosa d-flex align-items-center">
+                <div class="text-center cont_div cont_rosa d-flex align-items-center mb_div mt-5">
                     <img class="w-23" src="{{ asset('img/ilustracion_1.png') }}" alt="Ilustracion de diseño">
                     <div>
                         <h1 class="display-4">Bienvenido a Nova</h1>
-                        <p class="lead">Ofrecemos los mejores servicios para satisfacer tus necesidades.</p>
-                        <a class="btn btn_service btn-lg mt-4" href="{{ route('servicios.vista') }}" role="button">Ver
-                            Servicios</a>
+                        <p class="lead">Ofrecemos los mejores servicios de diseño y programación para satisfacer tus necesidades.</p>
+                        <a class="button btn_lila m-2" href="{{ route('about') }}" role="button">Conocenos</a>
                     </div>
                 </div>
 
                 <!-- Destacados -->
-                <div>
-                    <h2 class="mt-5">Nuestros Servicios Destacados</h2>
+                <div class="container mb_div">
+                    <h2 class="mt-5 mb-4">Nuestros Servicios Destacados</h2>
                     <div class="row">
-                        @foreach($publicServices as $service)
-                            <div class="col-md-4"> <!-- Ajusta el tamaño de columna según tu diseño -->
-                                <div class="card cont_div" style="width: 18rem;">
+                        @foreach ($publicServices as $color => $service) 
+                            <div class="col-12 col-md-6 col-xl-4 mb-3">
+                                <div class="card h-100 {{ 'color-' . ($color % 3 + 1) }}">
                                     <img src="{{ asset('storage/' . $service->image) }}" class="card-img-top"
                                         alt="{{ $service->title }}">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ $service->title }}</h5>
-                                        <p class="card-text">{{ $service->description }}</p>
-                                    </div>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">Precio: {{ $service->price }} </li>
-                                        <li class="list-group-item">An item</li>
-                                        <!-- Modifica o elimina según sea necesario -->
-                                        <li class="list-group-item">A second item</li>
-                                    </ul>
-                                    <div class="card-body">
-                                        <a href="#" class="card-link">Card link</a>
-                                        <a href="#" class="card-link">Another link</a>
+                                        <div>
+                                            <h3>{{ $service->title }}</h3>
+                                            <p>{{ \Illuminate\Support\Str::limit($service->description, 150) }}</p>
+                                            <p class="card-text"><strong>Precio:</strong> ${{ $service->price }}</p>
+                                        </div>
+                                        <div class="button-container">
+                                            <a href="{{ route('servicios.show', $service->id) }}"
+                                                class="button btn_link">Ver más</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
                     </div>
+                    <a class="button btn_celeste mt-5" href="{{ route('servicios.vista') }}" role="button">Ver más servicios</a>
+
                 </div>
 
 
                 <!-- Articulo Blog -->
-                <div>
+                <div class="mb_div">
                     <h2 class="mt-5">Últimos Artículos del Blog</h2>
                     <div class="row">
                         <div class="card cont_div">
@@ -69,12 +67,12 @@
                 </div>
 
                 <!-- Contacto -->
-                <div class="cont_div cont_lila mt-5">
+                <div class="cont_div cont_lila mt-5 mb_div">
                     <h2 class="mt-5">¿Necesitas más información?</h2>
                     <p>Contáctanos para obtener un presupuesto personalizado o si tienes alguna consulta.</p>
                     <div>
-                        <a class="btn btn_conocenos m-2" href="{{ route('about') }}" role="button">Conocenos</a>
-                        <a class="btn btn_contacto m-2" href="{{ route('contact') }}" role="button">Contáctanos</a>
+                        <a class="button btn_rosa m-2" href="{{ route('about') }}" role="button">Conocenos</a>
+                        <a class="button btn_celeste m-2" href="{{ route('contact') }}" role="button">Contáctanos</a>
                     </div>
 
                 </div>
@@ -82,7 +80,7 @@
         </div>
     </div>
 
-    <!-- Nav -->
+    <!-- Footer -->
     <x-footer> </x-footer>
 </div>
 
