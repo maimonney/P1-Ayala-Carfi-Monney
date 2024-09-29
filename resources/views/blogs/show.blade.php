@@ -26,7 +26,7 @@
                     <div class="card-body">
                         <h1 class="card-title">{{ $blog->title }}</h1>
                         <p class="card-text"><i>{{ $blog->description }}</i></p>
-                        <p class="card-text">{{ $blog->content }}</p>
+                        <p class="card-text">{!! $blog->content !!}</p>
                     </div>
 
                     <div class="card_footer">
