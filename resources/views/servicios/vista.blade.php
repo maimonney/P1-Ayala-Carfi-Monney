@@ -20,18 +20,18 @@
                             $lastService = $services->last();
                         @endphp
 
-                        @if ($lastService) <!-- Verificar si lastService no es null -->
+                        @if ($lastService) 
                             <div class="col-12 mb-3">
                                 <div class="card h-100 cont_div">
-                                    <div class="d-flex">
-                                        <img src="{{ asset('storage/' . $lastService->image) }}" class="card-img-top w-60"
+                                    <div class="d-flex cont_img_vista">
+                                    <img src="{{ asset($lastService->image) }}" class="card-img-top"
                                              alt="{{ $lastService->title }}">
 
-                                        <div>
+                                        <div class="ms-5">
                                             <h5 class="card-title">{{ $lastService->title }}</h5>
                                             <ul class="list-group list-group-flush">
                                                 <li class="list-group-item">Precio: {{ $lastService->price }}</li>
-                                                <li class="list-group-item">Duración: {{ $lastService->duration }}</li>
+                                                <li class="list-group-item">Duración: {{ $lastService->duration }} Meses</li>
                                                 <li class="list-group-item">Categoría: {{ $lastService->category }}</li>
                                             </ul>
                                         </div>
@@ -46,15 +46,14 @@
                                 </div>
                             </div>
                         @else
-                            <p>No hay servicios disponibles.</p> <!-- Mensaje si no hay servicios -->
+                            <p>No hay servicios disponibles.</p> 
                         @endif
 
-                        <!-- Resto de servicios -->
                         @foreach($services as $service)
                             @if ($service != $lastService)
-                                <div class="col-12 col-md-6 col-xl-4 mb-3">
-                                    <div class="card h-100 cont_div" style="width: 18rem;">
-                                        <img src="{{ asset('storage/' . $service->image) }}" class="card-img-top"
+                                <div class="col-12 col-md-4 mb-3">
+                                    <div class="card h-100 cont_div" style="width: 25rem;">
+                                    <img src="{{ asset($service->image) }}" class="card-img-top"
                                              alt="{{ $service->title }}">
                                         <div class="card-body">
                                             <h5 class="card-title">{{ $service->title }}</h5>
@@ -62,11 +61,11 @@
                                         </div>
                                         <ul class="list-group list-group-flush">
                                             <li class="list-group-item">Precio: {{ $service->price }}</li>
-                                            <li class="list-group-item">Duración: {{ $service->duration }}</li>
+                                            <li class="list-group-item">Duración: {{ $service->duration }} meses</li>
                                             <li class="list-group-item">Categoría: {{ $service->category }}</li>
                                         </ul>
                                         <div class="button-container">
-                                            <a href="{{ route('servicios.show', $service->id) }}" class="button btn_link">Ver más</a>
+                                            <a href="{{ route('servicios.show', $service->id) }}" class="button btn_link mt-5">Ver más</a>
                                         </div>
                                     </div>
                                 </div>

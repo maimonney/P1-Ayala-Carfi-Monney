@@ -20,6 +20,9 @@
                         <li class="nav-item">
                             <x-nav-link route="servicios.vista">Servicios</x-nav-link>
                         </li>
+                        <li class="nav-item">
+                            <x-nav-link route="blogs.vista">Blogs</x-nav-link>
+                        </li>
 
                     </ul>
 

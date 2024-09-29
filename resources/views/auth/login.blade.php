@@ -10,22 +10,28 @@
             <!-- Nav -->
             <x-nav> </x-nav>
 
-            <div class="container mt-5">
+            <div class="cont_div_form mt-5">
                 <!-- Form -->
-                <form method="POST" action="{{ route('login') }}">
+                <form method="POST" action="{{ route('login') }}" class="cont_form_login">
                     @csrf
-                    <div>
+                    <div class="form_text">
                         <label for="email">Correo Electrónico</label>
-                        <input type="email" id="email" name="email" required autofocus>
+                        <input type="email" id="email" name="email"  class="form-control" value="{{old ('email')}}">
                     </div>
 
-                    <div>
+                    <div class="form_text">
                         <label for="password">Contraseña</label>
                         <input type="password" id="password" name="password" required>
                     </div>
 
-                    <button type="submit">Iniciar sesión</button>
+                    <button type="submit" class="button btn_celeste mt-3">Iniciar sesión</button>
+
+                    <a href="{{ route('register') }}" class="button btn_rosa text-center mt-3">Crear</a>
                 </form>
-                <a href="{{ route('register') }}">Crear</a>
-</div></div></div></div>
-                @endsection
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer -->
+<x-footer> </x-footer>
+@endsection

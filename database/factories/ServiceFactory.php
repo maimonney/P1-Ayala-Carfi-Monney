@@ -17,7 +17,7 @@ class ServiceFactory extends Factory
             'title' => $this->faker->sentence(),
             'description' => $this->faker->paragraph(),
             'price' => $this->faker->randomFloat(2, 10, 100),
-            'duration' => $this->faker->randomElement(['1 semana', '2 semanas', '1 mes', '3 meses']),
+            'duration' => $this->faker->numberBetween(1, 6) . ' meses',
             'category' => $this->faker->randomElement([
                 'Desarrollo Web',
                 'Marketing',

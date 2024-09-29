@@ -3,28 +3,34 @@
 @section('title', 'Detalle del Servicio')
 
 @section('content')
-<div class="contenier">
-    <div class="row">
-        <div class="col-12">
-            <!-- Nav -->
-            <x-nav> </x-nav>
 
-            <div class="container">
-                <h1>{{ $service->title }}</h1>
+<div class="col-12">
+    <!-- Nav -->
+    <x-nav> </x-nav>
+    <div class="container">
 
-                <img src="{{ asset('storage/' . $service->image) }}" alt="{{ $service->title }}" class="img-fluid mb-3">
-
-                <p>{{ $service->description }}</p>
-
-                <p><strong>Precio:</strong> ${{ $service->price }}</p>
-
-                @if ($service->duration)
-                    <p><strong>Duración:</strong> {{ $service->duration }} minutos</p>
-                @endif
+        <div class="cont_vista">
+            <div class="row cont_row_vista">
+                <div class="col-md-4">
 
 
+                <img src="{{ asset($service->image) }}" alt="{{ $service->title }}" class="img-fluid">
+                </div>
+                <div class="col-md-6">
+                    <h1>{{ $service->title }}</h1>
+                    <p>{{ $service->description }}</p>
+
+                    <p><strong>Precio:</strong> ${{ $service->price }}</p>
+
+                    @if ($service->duration)
+                        <p><strong>Duración:</strong> {{ $service->duration }} minutos</p>
+                    @endif
+                </div>
             </div>
-            <!-- Footer -->
-            <x-footer> </x-footer>
+
         </div>
-        @endsection
+    </div>
+    <!-- Footer -->
+    <x-footer> </x-footer>
+</div>
+@endsection

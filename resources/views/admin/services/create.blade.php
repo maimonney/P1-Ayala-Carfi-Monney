@@ -10,7 +10,7 @@
                 <h1 class="mb-3">Publicar Nuevo Servicio</h1>
 
                 @if ($errors->any())
-                    <div class="alert alert-danger">
+                    <div class="alert_error">
                         Hay errores en los datos del formulario. Por favor, revisarlos y volver a intentar.
                     </div>
                 @endif
@@ -24,7 +24,7 @@
                             <div class="mb-3">
                                 <label for="title" class="form-label">Título</label>
                                 <input type="text" name="title" id="title" class="form-control"
-                                    value="{{ old('title') }}" required>
+                                    value="{{ old('title') }}">
                                 @error('title')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -34,17 +34,16 @@
                              <div class="mb-3">
                                 <label for="price" class="form-label">Precio</label>
                                 <input type="text" name="price" id="price" class="form-control"
-                                    value="{{ old('price') }}" required>
+                                    value="{{ old('price') }}">
                                 @error('price')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <!-- DESCRIPCION -->
-                            <div class="mb-3 form_text">
+                            <div class="mb-3 form_t">
                                 <label for="description" class="form-label">Descripción</label>
-                                <textarea name="description" id="description" class="form-control"
-                                    required>{{ old('description') }}</textarea>
+                                <textarea name="description" id="description" class="form-control">{{ old('description') }}</textarea>
                                 @error('description')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -60,7 +59,7 @@
                                         style="max-width: 200px;">
                                 </div>
                                 <input type="file" name="image" id="image" class="form-control" accept="image/*"
-                                    required style="display: none;" onchange="previewImage(event)">
+                                 style="display: none;" onchange="previewImage(event)">
                                 <button type="button" class="button btn_lila mt-4"
                                     onclick="document.getElementById('image').click();">
                                     Seleccionar Imagen
@@ -73,7 +72,7 @@
                             <!-- CATEGORIA -->
                             <div class="mb-3 select_form">
                                 <label for="category" class="form-label">Categoría</label>
-                                <select name="category" id="category" class="form-control" required>
+                                <select name="category" id="category" class="form-control">
                                     <option value="">Seleccione una categoría</option>
                                     <option value="Desarrollo Web" {{ old('category') == 'Desarrollo Web' ? 'selected' : '' }}>Desarrollo Web</option>
                                     <option value="Marketing" {{ old('category') == 'Marketing' ? 'selected' : '' }}>
@@ -92,9 +91,9 @@
 
                             <!-- DURACION -->
                             <div class="mb-3 select_form">
-                                <label for="duration" class="form-label">Duración (minutos)</label>
+                                <label for="duration" class="form-label">Duración (meses)</label>
                                 <input type="number" name="duration" id="duration" class="form-control"
-                                    value="{{ old('duration') }}" required>
+                                    value="{{ old('duration') }}">
                                 @error('duration')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror

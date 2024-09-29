@@ -15,21 +15,13 @@ class ServiceController extends Controller
         return view('admin.services.index', compact('services'));
     }
 
-    // Ultimos 3 servicios
-    public function home()
-    {
-
-        $publicServices = Service::latest()->take(3)->get();
-        return view('index', compact('publicServices'));
-    }
-
-    // Mostrar un formulario para crear un nuevo servicio
+    // Formulario para crear un nuevo servicio
     public function create()
     {
         return view('admin.services.create');
     }
 
-    // Almacenar un nuevo servicio
+    // Nuevo servicio
     public function store(Request $request)
     {
         // Validación de los datos de entrada
@@ -38,8 +30,16 @@ class ServiceController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'duration' => 'nullable|integer',
-            'category' => 'required|string'
+            'duration' => 'required|nullable|integer',
+            'category' => 'required|string',
+        ], [
+            'title.required' => 'El título es obligatorio.',
+            'description.required' => 'La descripción es obligatoria.',
+            'price.required' => 'El precio es obligatorio.',
+            'price.numeric' => 'El precio debe ser un número.',
+            'category.required' => 'La categoría es obligatoria.',
+            'duration.required' => 'La duración es obligatoria.', 
+            'duration.integer' => 'La duración debe ser un número entero.',
         ]);
 
         // Manejo de la imagen
@@ -63,27 +63,28 @@ class ServiceController extends Controller
         return redirect()->route('admin.services.index')->with('success', 'Servicio creado con éxito.');
     }
 
-    // Mostrar un servicio específico
+    // Todos los servicios
     public function show()
     {
         $services = Service::all();
         return view('servicios.vista', compact('services'));
     }
 
+    // Servicio por id
     public function vistaIndividual($id)
     {
         $service = Service::findOrFail($id);
         return view('servicios.show', compact('service'));
     }
 
-    // Mostrar un formulario para editar un servicio
+    // Formulario para editar un servicio
     public function edit($id)
     {
         $service = Service::findOrFail($id);
         return view('admin.services.edit', compact('service'));
     }
 
-    // Actualizar un servicio específico
+    // Actualizar un servicio
     public function update(Request $request, $id)
 {
     $request->validate([
@@ -130,13 +131,9 @@ class ServiceController extends Controller
     // Eliminar un servicio
     public function destroy($id)
     {
-        // Encuentra el servicio por ID
         $service = Service::findOrFail($id);
-
-        // Elimina el servicio
         $service->delete();
 
-        // Redirige con un mensaje de éxito
         return redirect()->route('admin.services.index')->with('success', 'Servicio eliminado con éxito.');
     }
 

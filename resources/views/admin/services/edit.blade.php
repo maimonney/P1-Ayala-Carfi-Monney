@@ -10,8 +10,8 @@
         <h1 class="mb-3">Editar Servicio</h1>
 
         @if ($errors->any())
-            <div class="alert alert-danger">
-                Hay errores en los datos del formulario. Por favor, revísalos y vuelve a intentar.
+            <div class="alert_error">
+                Hay errores en los datos del formulario. Por favor, revisarlos y volver a intentar.
             </div>
         @endif
 

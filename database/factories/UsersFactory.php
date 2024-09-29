@@ -29,14 +29,16 @@ class UsersFactory extends Factory
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => Hash::make('password'), // Contraseña por defecto
+            'password' => Hash::make('password'), 
             'remember_token' => Str::random(10),
-            'is_admin' => false, // Por defecto, los usuarios no son administradores
+            'is_admin' => false, 
         ];
     }
 
     /**
      * Indicate that the model's email address should be unverified.
+     *
+     * @return static
      */
     public function unverified(): static
     {
@@ -47,11 +49,47 @@ class UsersFactory extends Factory
 
     /**
      * Indicate that the model is an admin.
+     *
+     * @return static
      */
     public function admin(): static
     {
         return $this->state(fn (array $attributes) => [
-            'is_admin' => true, // Marca el usuario como administrador
+            'is_admin' => true, 
         ]);
     }
+
+    /**
+     * Indicate a custom password for the user.
+     *
+     * @param string $password
+     * @return static
+     */
+    public function withPassword(string $password): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'password' => Hash::make($password), 
+        ]);
+    }
+
+//     public function definition(): array
+// {
+//     return [
+//         'name' => $this->faker->name(),
+//         'email' => $this->faker->unique()->safeEmail(),
+//         'email_verified_at' => now(),
+//         'password' => Hash::make('password'), 
+//         'remember_token' => Str::random(10),
+//         'role' => 'user', 
+//     ];
+// }
+
+// // Indicar que el modelo es un admin.
+// public function admin(): static
+// {
+//     return $this->state(fn (array $attributes) => [
+//         'role' => 'admin', 
+//     ]);
+// }
+
 }

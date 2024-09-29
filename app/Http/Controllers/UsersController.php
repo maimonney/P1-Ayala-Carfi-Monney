@@ -11,13 +11,13 @@ class UsersController extends Controller
 {
     public function index()
     {
-        $users = Users::all(); 
-        return view('admin.users.index', compact('users')); 
+        $users = Users::all();
+        return view('admin.users.index', compact('users'));
     }
 
     public function create()
     {
-        return view('admin.users.create'); 
+        return view('admin.users.create');
     }
 
     public function store(Request $request)
@@ -25,28 +25,41 @@ class UsersController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed', 
-            'role' => 'required|string',
+            'password' => 'required|min:6|confirmed',
+            'role' => 'required|string|in:admin,user',
+        ], 
+        [
+            'name.required' => 'El nombre es obligatorio.',
+            'name.string' => 'El nombre debe ser una cadena de texto.',
+            'name.max' => 'El nombre no puede tener más de 255 caracteres.',
+
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'El correo electrónico debe ser una dirección válida.',
+            'email.unique' => 'El correo electrónico ya está en uso.',
+
+            'password.required' => 'La contraseña es obligatoria.',
+            'password.min' => 'La contraseña debe tener al menos 6 caracteres.',
+            'password.confirmed' => 'Las contraseñas no coinciden. Por favor, intente nuevamente.',
         ]);
 
         Users::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'password' => bcrypt($validated['password']),
+            'password' => Hash::make($validated['password']),
             'role' => $validated['role'],
         ]);
 
         return redirect()->route('admin.users.index')->with('success', 'Usuario creado con éxito.');
     }
 
-    public function show(Users $user) 
+    public function show(Users $user)
     {
-        return view('admin.users.show', compact('user')); 
+        return view('admin.users.show', compact('user'));
     }
 
     public function edit(Users $user)
     {
-        return view('admin.users.edit', compact('user')); 
+        return view('admin.users.edit', compact('user'));
     }
 
     public function update(Request $request, Users $user)

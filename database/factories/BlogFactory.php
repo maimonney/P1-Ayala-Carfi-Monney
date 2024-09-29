@@ -16,8 +16,10 @@ class BlogFactory extends Factory
             'image' => $this->faker->imageUrl(), 
             'title' => $this->faker->sentence(), 
             'description' => $this->faker->paragraph(), 
+            'content' => $this->faker->text(500), 
             'published_at' => $this->faker->dateTimeBetween('-1 year', 'now'), 
-            'author_id' => Users::inRandomOrder()->first()->id,
+            'author_id' => auth()->id(),
+            'tags' => $this->faker->words(3, true), 
         ];
     }
 }

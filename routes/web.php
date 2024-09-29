@@ -7,6 +7,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\BlogController;
 
 // Rutas Públicas
 Route::get('/', [HomeController::class, "home"])->name('home');
@@ -14,13 +15,13 @@ Route::get('/acerca-de', [HomeController::class, "about"])->name('about');
 Route::get('/contacto', [HomeController::class, "contact"])->name('contact');
 Route::get('/servicios', [ServiceController::class, 'show'])->name('servicios.vista');
 
-// Muestra 3 servicios en el index
-Route::get('/', [ServiceController::class, 'home'])->name('home');
-
 // Vista de servicios
 Route::get('/servicios', [ServiceController::class, 'show'])->name('servicios.vista');
 Route::get('/servicios/{id}', [ServiceController::class, 'vistaIndividual'])->name('servicios.show');
 
+// Vista de blogs
+Route::get('/blogs', [BlogController::class, 'show'])->name('blogs.vista');
+Route::get('/blogs/{id}', [BlogController::class, 'vistaIndividualBlog'])->name('blogs.show');
 
 // Ruta para enviar formulario de contacto
 Route::post('/contact', function (Request $request) {
@@ -52,14 +53,20 @@ Route::get('/dashboard', function () {
 })->middleware('auth');
 
 // Rutas de administración
-Route::prefix('admin')->group(function () {
-    // Ruta de índice para el panel de administración
+// Route::prefix('admin')->group(function () {
+//     Route::get('/', function () {
+//         // Verifica si el usuario es un administrador
+//         if (!Auth::check() || Auth::user()->role !== 'admin') {
+//             return redirect('/')->with('error', 'Acceso denegado');
+//         }
+//         return view('admin.index');
+//     })->name('admin.index');
+Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get('/', function () {
         return view('admin.index');
     })->name('admin.index');
 
     // Rutas de servicios
-    Route::get('/servicios', [ServiceController::class, 'index'])->name('admin.services.index');
     Route::resource('servicios', ServiceController::class)->names([
         'index' => 'admin.services.index',
         'create' => 'admin.services.create',
@@ -79,4 +86,16 @@ Route::prefix('admin')->group(function () {
         'update' => 'admin.users.update',
         'destroy' => 'admin.users.destroy',
     ]);
+
+    // Rutas de recursos para el blog
+    Route::resource('blogs', BlogController::class)->names([
+        'index' => 'admin.blogs.index',
+        'create' => 'admin.blogs.create',
+        'store' => 'admin.blogs.store',
+        'edit' => 'admin.blogs.edit',
+        'update' => 'admin.blogs.update',
+        'destroy' => 'admin.blogs.destroy',
+        'show' => 'admin.blogs.show',
+    ]);    
+    
 });

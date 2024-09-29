@@ -10,4 +10,14 @@ class Users extends Authenticatable
     use HasFactory;
 
     protected $fillable = ['name', 'email', 'password', 'role'];
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin'; 
+    }
+
+    public function blogs()
+    {
+        return $this->hasMany(Blog::class, 'author_id');
+    }
 }

@@ -12,11 +12,12 @@
 
             <div class="container mt-5">
                 <!-- Bienvenida -->
-                <div>
-                    <h1>Bienvenidos al Admin</h1>
-                    <div>
-                        <a href="{{ route('admin.services.index') }}">Servicios admin</a>
-                        <a href="{{ route('admin.users.index') }}">Usuarios admin</a>
+                <div class="=cont_index_admin">
+                    <h1 class="mb-5 text-center">Bienvenidos al Admin</h1>
+                    <div class="cont_btn_admin">
+                        <a href="{{ route('admin.services.index') }}" class="button btn_lila">Servicios</a>
+                        <a href="{{ route('admin.users.index') }}" class="button btn_celeste">Usuarios</a>
+                        <a href="{{ route('admin.blogs.index') }}" class="button btn_verde">Blogs</a>
                     </div>
                 </div>
             </div>

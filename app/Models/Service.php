@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\UsersController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,6 +16,12 @@ class Service extends Model
         'price', 
         'duration',
         'category',
-        'image',     
+        'image', 
+        'user_id',    
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(UsersController::class);
+    }
 }

@@ -1,26 +1,26 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Models;
 
-class CreateBlogsTable extends Migration
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Blog extends Model
 {
-    public function up()
-    {
-        Schema::create('blogs', function (Blueprint $table) {
-            $table->id();
-            $table->string('image');
-            $table->string('title');
-            $table->text('description');
-            $table->timestamp('published_at')->nullable();
-            $table->foreignId('author_id')->constrained('users')->onDelete('cascade'); // Asegúrate de que la relación sea correcta
-            $table->timestamps();
-        });
-    }
+    use HasFactory;
 
-    public function down()
+    protected $fillable = [
+        'image',
+        'title',
+        'description',
+        'content',
+        'published_at',
+        'author_id',
+        'tags',
+    ];
+
+    public function author()
     {
-        Schema::dropIfExists('blogs');
+        return $this->belongsTo(Users::class, 'author_id');
     }
 }

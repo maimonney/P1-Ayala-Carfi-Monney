@@ -9,7 +9,7 @@
         <h1 class="mb-3">Agregar Nuevo Usuario</h1>
 
         @if ($errors->any())
-            <div class="alert alert-danger">
+            <div class="alert_error">
                 Hay errores en los datos del formulario. Por favor, revisarlos y volver a intentar.
             </div>
         @endif
@@ -21,9 +21,9 @@
                 <div class="col-md-6">
                     <!-- NOMBRE -->
                     <div class="mb-3">
-                        <label for="name" class="form-label">Nombre</label>
-                        <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}" required>
-                        @error('name')
+                        <label for="title" class="form-label">Nombre</label>
+                        <input type="text" name="title" id="title" class="form-control" value="{{ old('title') }}">
+                        @error('title')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
@@ -31,7 +31,7 @@
                     <!-- EMAIL -->
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required>
+                        <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}">
                         @error('email')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
@@ -40,7 +40,7 @@
                     <!-- ROL -->
                     <div class="mb-3 select_form">
                         <label for="role" class="form-label">Rol</label>
-                        <select name="role" id="role" class="form-control" required>
+                        <select name="role" id="role" class="form-control">
                             <option value="">Seleccione un rol</option>
                             <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Administrador</option>
                             <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>Usuario</option>
@@ -53,7 +53,7 @@
                     <!-- CONTRASEÑA -->
                     <div class="mb-3">
                         <label for="password" class="form-label">Contraseña</label>
-                        <input type="password" name="password" id="password" class="form-control" required>
+                        <input type="password" name="password" id="password" class="form-control">
                         @error('password')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
@@ -62,7 +62,7 @@
                     <!-- CONFIRMAR CONTRASEÑA -->
                     <div class="mb-3">
                         <label for="password_confirmation" class="form-label">Confirmar Contraseña</label>
-                        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required>
+                        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
                     </div>
                 </div>
             </div>
