@@ -18,30 +18,6 @@ return new class extends Migration {
             $table->enum('role', ['user', 'admin'])->default('user');
             $table->timestamps();
         });
-
-        DB::table('users')->insert([
-            [
-                'name' => 'Sofi',
-                'email' => 'sofia.carafi@davinci.edu.ar',
-                'password' => \Hash::make('password'),
-                'role' => 'user',
-                'created_at' => now(),
-            ],
-            [
-                'name' => 'Mailen',
-                'email' => 'mailen.monney@davinci.edu.ar',
-                'password' => \Hash::make('123456'),
-                'role' => 'admin',
-                'created_at' => now()
-            ],
-            [
-                'name' => 'Day',
-                'email' => 'daiana.ayala@davinci.edu.ar',
-                'password' => \Hash::make('day123'),
-                'role' => 'admin',
-                'created_at' => now()
-            ]
-        ]);
     }
 
     /**

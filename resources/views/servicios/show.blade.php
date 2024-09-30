@@ -23,7 +23,7 @@
                     <p><strong>Precio:</strong> ${{ $service->price }}</p>
 
                     @if ($service->duration)
-                        <p><strong>Duración:</strong> {{ $service->duration }} minutos</p>
+                        <p><strong>Duración:</strong> {{ $service->duration }} meses</p>
                     @endif
                 </div>
             </div>
