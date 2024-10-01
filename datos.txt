@@ -1,0 +1,12 @@
+Integrantes:
+    -Ayala Daiana Ortiz
+    -Carafi Sofia
+    -Monney Mailen
+Carrera: Diseño y programacion web
+Materia: Portales y Comercio Electrónico
+Cuatrimestre: 4
+Año: 2024
+Turno: Mañana
+Comisión: DWM4AP
+Docente: Carlos Ferrer
+Carácter de entrega (1er parcial)
