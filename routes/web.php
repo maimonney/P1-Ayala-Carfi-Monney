@@ -8,6 +8,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\Admin\ServiceAdminController;
+use App\Http\Controllers\Admin\BlogAdminController;
 
 // Rutas Públicas
 Route::get('/', [HomeController::class, "home"])->name('home');
@@ -16,11 +18,11 @@ Route::get('/contacto', [HomeController::class, "contact"])->name('contact');
 Route::get('/servicios', [ServiceController::class, 'show'])->name('servicios.vista');
 
 // Vista de servicios
-Route::get('/servicios', [ServiceController::class, 'show'])->name('servicios.vista');
+Route::get('/servicios', [ServiceController::class, 'index'])->name('servicios.vista');
 Route::get('/servicios/{id}', [ServiceController::class, 'vistaIndividual'])->name('servicios.show');
 
 // Vista de blogs
-Route::get('/blogs', [BlogController::class, 'show'])->name('blogs.vista');
+Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.vista');
 Route::get('/blogs/{id}', [BlogController::class, 'vistaIndividualBlog'])->name('blogs.show');
 
 // Ruta para enviar formulario de contacto
@@ -53,28 +55,19 @@ Route::get('/dashboard', function () {
 })->middleware('auth');
 
 // Rutas de administración
-// Route::prefix('admin')->group(function () {
-//     Route::get('/', function () {
-//         // Verifica si el usuario es un administrador
-//         if (!Auth::check() || Auth::user()->role !== 'admin') {
-//             return redirect('/')->with('error', 'Acceso denegado');
-//         }
-//         return view('admin.index');
-//     })->name('admin.index');
-Route::prefix('admin')->middleware('admin')->group(function () {
+Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('admin.index');
     })->name('admin.index');
 
     // Rutas de servicios
-    Route::resource('servicios', ServiceController::class)->names([
+    Route::resource('services', ServiceAdminController::class)->names([
         'index' => 'admin.services.index',
         'create' => 'admin.services.create',
         'store' => 'admin.services.store',
         'edit' => 'admin.services.edit',
         'update' => 'admin.services.update',
         'destroy' => 'admin.services.destroy',
-        'show' => 'admin.services.show',
     ]);
 
     // Rutas de usuarios
@@ -88,7 +81,7 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     ]);
 
     // Rutas de recursos para el blog
-    Route::resource('blogs', BlogController::class)->names([
+    Route::resource('blogs', BlogAdminController::class)->names([
         'index' => 'admin.blogs.index',
         'create' => 'admin.blogs.create',
         'store' => 'admin.blogs.store',

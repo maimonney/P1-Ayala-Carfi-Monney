@@ -32,8 +32,11 @@
                 <ul class="navbar-nav">
 
                     @if (auth()->check())
-                    <li class="nav-link nombre_nav">Hola, <strong>{{ auth()->user()->name }}</strong>!</li>
+                        <li class="nav-link nombre_nav">
+                            Hola, <strong><a href="{{ route('admin.index') }}">{{ auth()->user()->name }}</a></strong>!
+                        </li>
                     @endif
+
                     @auth
                         <li class="nav-item">
                             <form action="{{ route('logout') }}" method="POST" style="display: inline;">

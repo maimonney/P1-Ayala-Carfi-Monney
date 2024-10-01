@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title')</title>
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('css/estilo.css') }}">
     <link href=" {{ url('css/bootstrap.min.css') }} " rel="stylesheet">
 </head>
@@ -14,7 +15,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <div class="alert alert-success">
+                    <div class="alert_correcto ">
                         {!! session()->get('feedback.message') !!}
                     </div>
                 </div>

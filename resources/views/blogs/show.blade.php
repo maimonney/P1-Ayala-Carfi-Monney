@@ -13,14 +13,19 @@
         <div class="cont_vista">
             <div class="row cont_row_vista">
                 <div class="col-md-4">
-                <img src="{{ asset($blog->image) }}" alt="{{ $blog->title }}"
-                        class="img-fluid">
+                    @if ($blog->image && file_exists(public_path($blog->image)))
+                        <img src="{{ asset($blog->image) }}" class="img-fluid" alt="{{ $blog->title }}">
+                    @elseif ($blog->image && Storage::disk('public')->exists($blog->image))
+                        <img src="{{ asset('storage/' . $blog->image) }}" class="img-fluid" alt="{{ $blog->title }}">
+                    @else
+                        No se encontro la imagen.
+                    @endif
 
-                        @if ($blog->author)
-                            <p><strong>Autor:</strong> {{ $blog->author->name }}</p>
-                        @else
-                            <p><strong>Autor:</strong> Desconocido</p>
-                        @endif
+                    @if ($blog->author)
+                        <p><strong>Autor:</strong> {{ $blog->author->name }}</p>
+                    @else
+                        <p><strong>Autor:</strong> Desconocido</p>
+                    @endif
                 </div>
                 <div class="col-md-6">
                     <div class="card-body">

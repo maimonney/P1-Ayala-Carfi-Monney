@@ -33,7 +33,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Day',
                 'email' => 'daiana.ayala@davinci.edu.ar',
-                'password' => Hash::make('day1234'),
+                'password' => Hash::make('day123'),
                 'role' => 'admin',
                 'created_at' => now(),
                 'updated_at' => now(),

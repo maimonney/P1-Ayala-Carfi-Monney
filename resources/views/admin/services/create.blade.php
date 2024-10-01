@@ -21,7 +21,7 @@
                     <div class="form_admin">
                         <div class="col-md-6 ">
                             <!-- TITULO -->
-                            <div class="mb-3">
+                            <div class="mb-3 adm_div">
                                 <label for="title" class="form-label">Título</label>
                                 <input type="text" name="title" id="title" class="form-control"
                                     value="{{ old('title') }}">
@@ -31,7 +31,7 @@
                             </div>
 
                              <!-- PRECIO -->
-                             <div class="mb-3">
+                             <div class="mb-3 adm_div">
                                 <label for="price" class="form-label">Precio</label>
                                 <input type="text" name="price" id="price" class="form-control"
                                     value="{{ old('price') }}">
@@ -41,7 +41,7 @@
                             </div>
 
                             <!-- DESCRIPCION -->
-                            <div class="mb-3 form_t">
+                            <div class="mb-3 form_t adm_div">
                                 <label for="description" class="form-label">Descripción</label>
                                 <textarea name="description" id="description" class="form-control">{{ old('description') }}</textarea>
                                 @error('description')

@@ -7,7 +7,7 @@
 <div>
     <x-nav_admin></x-nav_admin>
 
-    <div class="container mt-5">
+    <div class="container_cuadro">
         <h1 class="text-center">Listado de Blogs</h1>
         <div class="mb-3 d-flex justify-content-center">
             <a href="{{ route('admin.blogs.create') }}" class="button btn_celeste">Agregar Nuevo Blog</a>
@@ -21,6 +21,13 @@
                 </div>
             </div>
         @else
+
+            @if (session('success'))
+                <div class="alert_correcto">
+                    {{ session('success') }}
+                </div>
+            @endif
+
             <table class="table_cont">
                 <thead>
                     <tr>
@@ -39,17 +46,18 @@
                     @foreach ($blogs as $blog) 
                         <tr>
                             <td>{{ $blog->id }}</td>
-                            <td>
-                                @if ($blog->image)
-                                <img src="{{ asset($blog->image) }}" alt="{{ $blog->title }}"
-                                        style="width: 100px; height: auto;">
+                            <td style="width: 250px;">
+                                @if ($blog->image && file_exists(public_path($blog->image)))
+                                    <img src="{{ asset($blog->image) }}" class="img-fluid" alt="{{ $blog->title }}">
+                                @elseif ($blog->image && Storage::disk('public')->exists($blog->image))
+                                    <img src="{{ asset('storage/' . $blog->image) }}" class="img-fluid" alt="{{ $blog->title }}">
                                 @else
-                                    <p>No hay imagen disponible</p>
+                                    No se encontro la imagen.
                                 @endif
                             </td>
                             <td>{{ $blog->title }}</td>
-                            <td>{{ $blog->description }}</td>
-                            <td>{{ Str::limit($blog->content, 100) }}</td>
+                            <td style="width: 350px;">{{ $blog->description }}</td>
+                            <td style="width: 350px;">{!! Str::limit($blog->content, 100) !!}</td>
                             <td>
                                 @if($blog->author)
                                     {{ $blog->author->name }}
@@ -64,44 +72,12 @@
                                     <a href="{{ route('admin.blogs.edit', $blog->id) }}"
                                         class="button btn_celeste me-4">Editar</a>
 
-                                    <form action="{{ route('admin.blogs.destroy', $blog->id) }}" method="post"
-                                        style="display:inline;">
+                                    <form action="{{ route('admin.blogs.destroy', $blog->id) }}" method="POST"
+                                        onsubmit="return confirm('¿Estás seguro de que deseas eliminar este servicio?');">
                                         @csrf
                                         @method('DELETE')
-                                        <input type="button" class="button btn_rojo" value="Eliminar" data-toggle="modal"
-                                            data-target="#deleteModal"
-                                            onclick="setDeleteFormAction('{{ route('admin.blogs.destroy', $blog->id) }}')">
+                                        <button type="submit" class="button btn_rojo me-4">Eliminar</button>
                                     </form>
-
-
-
-                                    <!-- Modal de Confirmación -->
-                                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
-                                        aria-labelledby="deleteModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="cont_div cont_modal">
-                                                <div class="modal_header">
-                                                    <h5 class="modal-title" id="deleteModalLabel">Confirmar Eliminación</h5>
-                                                    <button type="button" class="close_btn" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    ¿Está seguro de eliminar este blog?
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="button btn_lila"
-                                                        data-dismiss="modal">Cancelar</button>
-                                                    <form id="deleteForm" action="" method="POST" style="display:inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <input type="submit" class="button btn_rojo" value="Eliminar">
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
 
 
 
@@ -116,14 +92,4 @@
 
     <x-footer></x-footer>
 </div>
-
-<script>
-    function setDeleteFormAction(action) {
-        document.getElementById('deleteForm').action = action;
-    }
-    document.getElementById('deleteForm').addEventListener('submit', function (e) {
-        console.log("Formulario enviado");
-    });
-
-</script>
 @endsection

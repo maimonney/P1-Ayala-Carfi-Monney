@@ -22,7 +22,7 @@
 
             <div class="form_admin">
                 <div class="col-md-6">
-                    <div class="mb-3">
+                    <div class="mb-3 adm_div">
                         <label for="title" class="form-label">Título</label>
                         <input type="text" name="title" id="title" class="form-control"
                             value="{{ old('title', $service->title) }}" required>
@@ -31,7 +31,7 @@
                         @enderror
                     </div>
 
-                    <div class="mb-3 form_text">
+                    <div class="mb-3 adm_div">
                         <label for="description" class="form-label">Descripción</label>
                         <textarea name="description" id="description" class="form-control"
                             required>{{ old('description', $service->description) }}</textarea>
@@ -40,7 +40,7 @@
                         @enderror
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-3 adm_div">
                         <label for="price" class="form-label">Precio</label>
                         <input type="text" name="price" id="price" class="form-control"
                             value="{{ old('price', $service->price) }}" required>
@@ -70,9 +70,17 @@
                         <div class="mb-3 select_form">
                             <label for="image" class="form-label">Imagen</label>
                             <div id="imagePreview" class="mt-2" style="{{ $service->image ? '' : 'display:none;' }}">
-                                <img id="preview" src="{{ $service->image ? asset('storage/' . $service->image) : '' }}"
-                                    alt="{{ old('title', $service->title) }}" class="img-thumbnail"
-                                    style="max-width: 200px;">
+                                @if ($service->image && file_exists(public_path($service->image)))
+                                    <img id="preview" src="{{ asset($service->image) }}"
+                                        alt="{{ old('title', $service->title) }}" class="img-thumbnail"
+                                        style="max-width: 200px;">
+                                @elseif ($service->image && Storage::disk('public')->exists($service->image))
+                                    <img id="preview" src="{{ asset('storage/' . $service->image) }}"
+                                        alt="{{ old('title', $service->title) }}" class="img-thumbnail"
+                                        style="max-width: 200px;">
+                                @else
+                                    No se encontro la imagen.
+                                @endif
                             </div>
                             <input type="file" name="image" id="image" class="form-control" accept="image/*"
                                 style="opacity: 0; position: absolute; pointer-events: none;"

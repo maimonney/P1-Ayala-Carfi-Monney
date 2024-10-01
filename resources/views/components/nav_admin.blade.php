@@ -17,7 +17,7 @@
             </div>
             <div>
                 <ul class="navbar-nav">
-                    <li class="nav-link"><a href="{{ route('home') }}">Home</a></li>
+                    <li class="nav-link nombre_nav"><a href="{{ route('home') }}">Inicio público</a></li>
                     @if (auth()->check())
                     <li class="nav-link nombre_nav">Hola, <strong>{{ auth()->user()->name }}</strong>!</li>
                     @endif

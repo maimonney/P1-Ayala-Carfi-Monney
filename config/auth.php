@@ -42,6 +42,18 @@ return [
         ],
     ],
 
+    // 'guards' => [
+    //     'web' => [
+    //         'driver' => 'session',
+    //         'provider' => 'users',
+    //     ],
+
+    //     'admin' => [
+    //         'driver' => 'session',
+    //         'provider' => 'users',  
+    //     ],
+    // ],
+
     /*
     |--------------------------------------------------------------------------
     | User Providers
@@ -71,6 +83,13 @@ return [
         // ],
     ],
 
+    // 'providers' => [
+    //     'users' => [
+    //         'driver' => 'eloquent',
+    //         'model' => App\Models\Users::class,  // Modelo de los usuarios
+    //     ],
+    // ],
+
     /*
     |--------------------------------------------------------------------------
     | Resetting Passwords
@@ -98,6 +117,7 @@ return [
             'throttle' => 60,
         ],
     ],
+    
 
     /*
     |--------------------------------------------------------------------------

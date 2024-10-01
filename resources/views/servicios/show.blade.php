@@ -14,7 +14,13 @@
                 <div class="col-md-4">
 
 
-                <img src="{{ asset($service->image) }}" alt="{{ $service->title }}" class="img-fluid">
+                @if ($service->image && file_exists(public_path($service->image)))
+                        <img src="{{ asset($service->image) }}" class="img-fluid" alt="{{ $service->title }}">
+                    @elseif ($service->image && Storage::disk('public')->exists($service->image))
+                        <img src="{{ asset('storage/' . $service->image) }}" class="img-fluid" alt="{{ $service->title }}">
+                    @else
+                        No se encontro la imagen.
+                    @endif
                 </div>
                 <div class="col-md-6">
                     <h1>{{ $service->title }}</h1>

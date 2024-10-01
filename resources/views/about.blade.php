@@ -47,10 +47,10 @@
                    <div>
                    <h2>¿Por qué elegirnos?</h2>
                     <ul>
-                        <li>Experiencia: Contamos con un equipo de profesionales altamente capacitados.</li>
-                        <li>Compromiso: Nos dedicamos a entender las necesidades de nuestros clientes y a brindarles
+                        <li><strong>Experiencia:</strong> Contamos con un equipo de profesionales altamente capacitados.</li>
+                        <li><strong>Compromiso:</strong> Nos dedicamos a entender las necesidades de nuestros clientes y a brindarles
                             soluciones personalizadas.</li>
-                        <li>Soporte: Ofrecemos soporte continuo para asegurar la satisfacción de nuestros clientes.</li>
+                        <li><strong>Soporte:</strong> Ofrecemos soporte continuo para asegurar la satisfacción de nuestros clientes.</li>
                     </ul>
                    </div>
 
@@ -62,9 +62,9 @@
                     <h2>Nuestro Equipo</h2>
                     <p>Estamos compuestos por un grupo diverso de expertos en diferentes áreas del desarrollo digital.
                     </p>
-                    <div class="row mt-5">
+                    <div class="cont_alumnas mt-5">
 
-                        <div class="col-md-4 mb-4">
+                    <div class="alumnas m-4">
                             <div class="cont_img_integrantes">
                                 <img src="{{ asset('img/dayayalaa.jpg') }}" alt="Foto de Daiana Ayala">
                             </div>
@@ -72,7 +72,7 @@
                             <p class="card-text">Diseñadora y programadora web</p>
                         </div>
 
-                        <div class="col-md-4 mb-4">
+                        <div class="alumnas m-4">
                             <div class="cont_img_integrantes">
                                 <img src="{{ asset('img/Maimonney.jpg') }}" alt="Foto de Mailen Monney">
                             </div>
@@ -80,7 +80,7 @@
                             <p class="card-text">Diseñadora gráfica y programadora web</p>
                         </div>
 
-                        <div class="col-md-4 mb-4">
+                        <div class="alumnas m-4">
                             <div class="cont_img_integrantes">
                                 <img src="{{ asset('img/sofi.jpeg') }}" alt="Foto de Sofia Carafi">
                             </div>

@@ -22,8 +22,14 @@
                             <div class="col-12 mb-3">
                                 <div class="card h-100 cont_div">
                                     <div class="d-flex flex-column">
-                                        <img src="{{ asset($lastBlog->image) }}" class="card-img-top w-60"
-                                            alt="{{ $lastBlog->title }}">
+                                    @if ($lastBlog->image && file_exists(public_path($lastBlog->image)))
+                                    <img src="{{ asset($lastBlog->image) }}" class="card-img-top" alt="{{ $lastBlog->title }}">
+                                @elseif ($lastBlog->image && Storage::disk('public')->exists($lastBlog->image))
+                                    <img src="{{ asset('storage/' . $lastBlog->image) }}" class="card-img-top"
+                                        alt="{{ $lastBlog->title }}">
+                                @else
+                                    No se encontro la imagen.
+                                @endif
 
                                         <div class="h-100">
                                             <div class="card-body">
@@ -36,12 +42,15 @@
                                                 @endif
 
                                                 <div class="d-flex justify-content-between">
-                                                @if ($lastBlog->tags)
-                                                    <p><strong>Etiquetas:</strong> {{ implode(', ', explode(',', $lastBlog->tags)) }}</p>
-                                                @endif
+                                                    @if ($lastBlog->tags)
+                                                        <p><strong>Etiquetas:</strong>
+                                                            {{ implode(', ', explode(',', $lastBlog->tags)) }}</p>
+                                                    @endif
 
-                                                <p><strong>Publicado el:</strong> {{ $lastBlog->published_at ? date('d/m/Y', strtotime($lastBlog->published_at)) : '' }}</p>
-                                            </div>
+                                                    <p><strong>Publicado el:</strong>
+                                                        {{ $lastBlog->published_at ? date('d/m/Y', strtotime($lastBlog->published_at)) : '' }}
+                                                    </p>
+                                                </div>
                                                 <div class="button-container">
                                                     <a href="{{ route('blogs.show', $lastBlog->id) }}"
                                                         class="button btn_link">Ver más</a>
@@ -52,7 +61,7 @@
                                 </div>
                             </div>
                         @else
-                            <p>No hay blogs disponibles.</p> 
+                            <p>No hay blogs disponibles.</p>
                         @endif
 
                         <!-- Resto de blogs -->
@@ -60,12 +69,20 @@
                             @if ($blog != $lastBlog)
                                 <div class="col-12 col-md-4 mb-3">
                                     <div class="card h-100 cont_div" style="width: 25rem;">
-                                    <img src="{{ asset($blog->image) }}" class="card-img-top"
-                                            alt="{{ $blog->title }}">
+                                        @if ($blog->image && file_exists(public_path($blog->image)))
+                                            <img src="{{ asset($blog->image) }}" class="card-img-top" alt="{{ $blog->title }}">
+                                        @elseif ($blog->image && Storage::disk('public')->exists($blog->image))
+                                            <img src="{{ asset('storage/' . $blog->image) }}" class="card-img-top"
+                                                alt="{{ $blog->title }}">
+                                        @else
+                                            No se encontro la imagen.
+                                        @endif
                                         <div class="card-body">
                                             <h5 class="card-title">{{ $blog->title }}</h5>
                                             <p class="card-text">{{ $blog->description }}</p>
-                                            <p><strong>Publicado el:</strong> {{ $blog->published_at ? date('d/m/Y', strtotime($blog->published_at)) : '' }}</p>
+                                            <p><strong>Publicado el:</strong>
+                                                {{ $blog->published_at ? date('d/m/Y', strtotime($blog->published_at)) : '' }}
+                                            </p>
                                             @if($blog->author)
                                                 <p><strong>Autor:</strong> {{ $blog->author->name }}</p>
                                             @else

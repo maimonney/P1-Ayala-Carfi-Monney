@@ -57,10 +57,19 @@
                     <!-- IMAGEN -->
                     <div class="mb-3 select_form">
                         <label for="image" class="form-label">Imagen</label>
-                        <div id="imagePreview" class="mt-2" style="display: {{ $blog->image ? 'block' : 'none' }};">
-                            <img id="preview" src="{{ $blog->image ? asset('storage/' . $blog->image) : '' }}"
-                                alt="Previsualización de la imagen" class="img-thumbnail" style="max-width: 200px;">
-                        </div>
+                        <div id="imagePreview" class="mt-2" style="{{ $blog->image ? '' : 'display:none;' }}">
+                                @if ($blog->image && file_exists(public_path($blog->image)))
+                                    <img id="preview" src="{{ asset($blog->image) }}"
+                                        alt="{{ old('title', $blog->title) }}" class="img-thumbnail"
+                                        style="max-width: 200px;">
+                                @elseif ($blog->image && Storage::disk('public')->exists($blog->image))
+                                    <img id="preview" src="{{ asset('storage/' . $blog->image) }}"
+                                        alt="{{ old('title', $blog->title) }}" class="img-thumbnail"
+                                        style="max-width: 200px;">
+                                @else
+                                    No se encontro la imagen.
+                                @endif
+                            </div>
                         <input type="file" name="image" id="image" class="form-control" accept="image/*"
                             style="display: none;" onchange="previewImage(event)">
                         <button type="button" class="button btn_lila mt-4"

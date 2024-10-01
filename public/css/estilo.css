@@ -42,10 +42,12 @@ h1 {
     transition: color 0.3s;
 }
 
-.cerrar {
+.cerrar,
+.nav-link a {
+    color: black;
     border: none;
     background-color: none;
-    text-decoration: underline;
+    text-decoration: none;
     cursor: pointer;
 }
 
@@ -62,6 +64,12 @@ h1 {
     justify-content: center;
     align-items: center;
     min-height: 75vh;
+}
+
+.cont_inicio{
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
 }
 
 .mb_div {
@@ -89,18 +97,18 @@ h1 {
     align-items: center;
 }
 
-.cont_sobrenos_ros{
+.cont_sobrenos_ros {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.cont_sobrenos_ros img{
+.cont_sobrenos_ros img {
     width: 200px;
     margin: 20px;
 }
 
-.cont_sobrenos{
+.cont_sobrenos {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -118,7 +126,7 @@ h1 {
 }
 
 .cont_verde img,
-.cont_amarillo img{
+.cont_amarillo img {
     width: 150px;
 }
 
@@ -134,6 +142,12 @@ h1 {
     gap: 20px;
 }
 
+.cont_alumnas{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .cont_img_integrantes img {
     border-radius: 50% 50% 0 0;
     border: 2px solid black;
@@ -147,7 +161,7 @@ h1 {
 }
 
 .cont_img_integrantes:hover {
-    transform: scale(1.1); 
+    transform: scale(1.1);
 }
 
 .cont_img_integrantes {
@@ -158,15 +172,15 @@ h1 {
     height: 300px;
 }
 
-.col-md-4:nth-child(3n + 1) .cont_img_integrantes {
+.alumnas:nth-child(3n + 1) .cont_img_integrantes {
     background-color: #e5ef88;
 }
 
-.col-md-4:nth-child(3n + 2) .cont_img_integrantes {
+.alumnas:nth-child(3n + 2) .cont_img_integrantes {
     background-color: #a388ef;
 }
 
-.col-md-4:nth-child(3n + 3) .cont_img_integrantes {
+.alumnas:nth-child(3n + 3) .cont_img_integrantes {
     background-color: #88efbf;
 }
 
@@ -223,6 +237,12 @@ h1 {
     font-weight: 600;
 }
 
+.adm_div label,
+.select_form label {
+    color: black;
+    font-weight: 600;
+}
+
 .form_admin {
     display: flex;
     justify-content: center;
@@ -247,6 +267,7 @@ input[type="password"] {
     outline: none;
 }
 
+.adm_div textarea,
 .select_form input,
 .select_form select,
 .form_text textarea,
@@ -340,14 +361,14 @@ input[type="password"]:focus,
     background-color: rgb(248, 107, 131);
 }
 
-.cont_index_admin{
+.cont_index_admin {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.cont_btn_admin{
+.cont_btn_admin {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -357,7 +378,8 @@ input[type="password"]:focus,
     margin: 10px;
     color: white;
 }
-.modal-footer{
+
+.modal-footer {
     border: none !important;
 }
 
@@ -410,7 +432,7 @@ input[type="password"]:focus,
 }
 
 /* VISTA INDIVIDUAL */
-.cont_vista{
+.cont_vista {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -421,14 +443,14 @@ input[type="password"]:focus,
     padding: 30px 40px;
 }
 
-.card_footer{
+.card_footer {
     display: flex;
     justify-content: space-between;
     border-top: 1px solid black;
     margin-top: 50px;
 }
 
-.cont_row_vista{
+.cont_row_vista {
     align-items: center;
     justify-content: center;
 }
@@ -477,7 +499,7 @@ input[type="password"]:focus,
     justify-content: center;
 }
 
-.cont_img_vista img{ 
+.cont_img_vista img {
     width: 600px;
 }
 
@@ -560,6 +582,53 @@ input[type="password"]:focus,
     color: white;
     margin-top: 40px;
     display: flex;
-    justify-content: space-between;
-    padding: 20px;
+    flex-direction: column;
+    align-items: center;
 }
+
+.footer_info{
+    text-align: center;
+}
+
+.cont_logo_li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+}
+
+.footer_image img {
+    width: 150px;
+    height: auto;
+    margin: 30px;
+}
+
+.footer_links {
+    flex: 1;
+    margin-left: 30px;
+}
+
+.footer_links ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    list-style: none;
+}
+
+.footer_links li {
+    width: 50%;
+    box-sizing: border-box;
+}
+
+@media (max-width: 990px) {
+    .cont_inicio {
+        flex-direction: column;
+    }
+
+    .cont_alumnas{
+        flex-direction: column;
+    }
+    
+}
+

@@ -12,8 +12,9 @@
 
             <div class="container mt-5">
                 <!-- Bienvenida -->
-                <div class="text-center cont_div cont_rosa d-flex align-items-center mb_div mt-5">
-                    <img class="w-23" src="{{ asset('img/ilustracion_1.png') }}" alt="Ilustracion de diseño">
+                <div class="cont_inicio cont_div cont_rosa mb_div">
+                    <img class="img-fluid mb-3 mb-md-0" src="{{ asset('img/ilustracion_1.png') }}"
+                        alt="Ilustracion de diseño">
                     <div>
                         <h1 class="display-4">Bienvenido a Nova</h1>
                         <p class="lead">Ofrecemos los mejores servicios de diseño y programación para satisfacer tus
@@ -22,14 +23,22 @@
                     </div>
                 </div>
 
+
                 <div class="container mb_div">
                     <h2 class="mt-5 mb-4">Nuestros Servicios Destacados</h2>
                     <div class="row">
                         @foreach ($publicServices as $color => $service)
-                            <div class="col-12 col-md-3 col-xl-4 mb-3">
+                        <div class="col-12 col-md-6 col-xl-4 mb-3">
                                 <div class="card h-100 {{ 'color-' . ($color % 3 + 1) }}">
-                                <img src="{{ asset($service->image) }}" class="card-img-top"
-                                        alt="{{ $service->title }}">
+                                    @if ($service->image && file_exists(public_path($service->image)))
+                                        <img src="{{ asset($service->image) }}" class="card-img-top"
+                                            alt="{{ $service->title }}">
+                                    @elseif ($service->image && Storage::disk('public')->exists($service->image))
+                                        <img src="{{ asset('storage/' . $service->image) }}" class="card-img-top"
+                                            alt="{{ $service->title }}">
+                                    @else
+                                        No se encontro la imagen.
+                                    @endif
                                     <div class="card-body">
                                         <h3>{{ $service->title }}</h3>
                                         <p>{{ \Illuminate\Support\Str::limit($service->description, 150) }}</p>
@@ -55,14 +64,20 @@
                         @foreach ($blogs as $color => $blog)
                             <div class="col-12 col-md-6 col-xl-4 mb-3">
                                 <div class="card h-100 {{ 'color-' . ($color % 3 + 1) }}">
-                                <img src="{{ asset($blog->image) }}" class="card-img-top"
-                                        alt="{{ $blog->title }}">
+                                    @if ($blog->image && file_exists(public_path($blog->image)))
+                                        <img src="{{ asset($blog->image) }}" class="card-img-top" alt="{{ $blog->title }}">
+                                    @elseif ($blog->image && Storage::disk('public')->exists($blog->image))
+                                        <img src="{{ asset('storage/' . $blog->image) }}" class="card-img-top"
+                                            alt="{{ $blog->title }}">
+                                    @else
+                                        No se encontro la imagen.
+                                    @endif
                                     <div class="card-body">
                                         <h3>{{ $blog->title }}</h3>
                                         <p>{{ \Illuminate\Support\Str::limit($blog->content, 150) }}</p>
                                         <div class="button-container">
-                                        <a href="{{ route('blogs.show', $blog->id) }}"
-                                        class="button btn_link">Ver más</a>
+                                            <a href="{{ route('blogs.show', $blog->id) }}" class="button btn_link">Ver
+                                                más</a>
                                         </div>
                                     </div>
                                 </div>

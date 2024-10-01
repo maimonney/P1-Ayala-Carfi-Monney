@@ -20,6 +20,13 @@
                 </div>
             </div>
         @else
+
+        @if (session('success'))
+        <div class="alert_correcto">
+            {{ session('success') }}
+        </div>
+    @endif
+    
             <table class="table_cont">
                 <thead>
                     <tr>
@@ -37,12 +44,14 @@
                     @foreach ($services as $service)
                         <tr>
                             <td>{{ $service->id }}</td>
-                            <td>
-                                @if ($service->image)
-                                <img src="{{ asset($service->image) }}" class="card-img-top"
+                            <td style="width: 350px;">
+                                @if ($service->image && file_exists(public_path($service->image)))
+                                    <img src="{{ asset($service->image) }}" class="img-fluid" alt="{{ $service->title }}">
+                                @elseif ($service->image && Storage::disk('public')->exists($service->image))
+                                    <img src="{{ asset('storage/' . $service->image) }}" class="img-fluid"
                                         alt="{{ $service->title }}">
                                 @else
-                                    No hay imagen
+                                    No se encontro la imagen.
                                 @endif
                             </td>
                             <td class="cont_titulo">{{ $service->title }}</td>
@@ -55,44 +64,14 @@
                                     <a href="{{ route('admin.services.edit', $service->id) }}"
                                         class="button btn_celeste me-4">Editar</a>
 
-                                    <form action="{{ route('admin.services.destroy', $service->id) }}" method="post"
-                                        style="display:inline;" data-toggle="modal" data-target="#deleteModal"
-                                        onclick="setDeleteFormAction('{{ route('admin.services.destroy', $service->id) }}')">
+                                    <form action="{{ route('admin.services.destroy', $service->id) }}" method="POST"
+                                        onsubmit="return confirm('¿Estás seguro de que deseas eliminar este servicio?');">
                                         @csrf
                                         @method('DELETE')
-                                        <input type="button" class="button btn_rojo" value="Eliminar">
+                                        <button type="submit" class="button btn_rojo me-4">Eliminar</button>
                                     </form>
 
-
-                                    <!-- Modal de Confirmación -->
-                                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
-                                        aria-labelledby="deleteModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="cont_div cont_modal">
-                                                <div class="modal_header">
-                                                    <h5 class="modal-title" id="deleteModalLabel">Confirmar Eliminación</h5>
-                                                    <button type="button" class="close_btn" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    ¿Está seguro de eliminar este servicio?
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="button btn_lila"
-                                                        data-dismiss="modal">Cancelar</button>
-                                                    <form id="deleteForm" action="" method="POST" style="display:inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <input type="submit" class="button btn_rojo" value="Eliminar">
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                 </div>
-
                             </td>
                         </tr>
                     @endforeach
@@ -103,10 +82,4 @@
 
     <x-footer></x-footer>
 </div>
-
-<script>
-    function setDeleteFormAction(action) {
-        document.getElementById('deleteForm').action = action;
-    }
-</script>
 @endsection
