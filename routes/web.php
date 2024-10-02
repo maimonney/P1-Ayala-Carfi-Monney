@@ -55,10 +55,19 @@ Route::get('/dashboard', function () {
 })->middleware('auth');
 
 // Rutas de administración
-Route::prefix('admin')->middleware('auth')->group(function () {
+
+Route::prefix('admin')->group(function () {
     Route::get('/', function () {
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
+            return redirect('/')->with('error', 'Acceso denegado');
+        }
         return view('admin.index');
     })->name('admin.index');
+    
+// Route::prefix('admin')->middleware('auth')->group(function () {
+//     Route::get('/', function () {
+//         return view('admin.index');
+//     })->name('admin.index');
 
     // Rutas de servicios
     Route::resource('services', ServiceAdminController::class)->names([

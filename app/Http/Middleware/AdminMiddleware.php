@@ -17,9 +17,8 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        // Verifica si el usuario está autenticado y si es administrador
+
         if (!Auth::check() || Auth::user()->role !== 'admin') {
-            \Log::warning('Acceso denegado para el usuario: ' . (Auth::user()->email ?? 'Usuario no autenticado'));
             return redirect('/')->with('error', 'Acceso denegado');
         }
 
