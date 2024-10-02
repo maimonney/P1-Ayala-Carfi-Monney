@@ -21,9 +21,9 @@
                 <div class="col-md-6">
                     <!-- NOMBRE -->
                     <div class="mb-3">
-                        <label for="title" class="form-label">Nombre</label>
-                        <input type="text" name="title" id="title" class="form-control" value="{{ old('title') }}">
-                        @error('title')
+                        <label for="name" class="form-label">Nombre</label>
+                        <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}">
+                        @error('name')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
