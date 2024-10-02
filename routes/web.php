@@ -10,6 +10,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\Admin\ServiceAdminController;
 use App\Http\Controllers\Admin\BlogAdminController;
+use App\Http\Controllers\Admin\AdminController;
 
 // Rutas Públicas
 Route::get('/', [HomeController::class, "home"])->name('home');
@@ -56,18 +57,21 @@ Route::get('/dashboard', function () {
 
 // Rutas de administración
 
-Route::prefix('admin')->group(function () {
-    Route::get('/', function () {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            return redirect('/')->with('error', 'Acceso denegado');
-        }
-        return view('admin.index');
-    })->name('admin.index');
-    
+// Route::prefix('admin')->group(function () {
+//     Route::get('/', function () {
+//         if (!Auth::check() || Auth::user()->role !== 'admin') {
+//             return redirect('/')->with('error', 'Acceso denegado');
+//         }
+//         return view('admin.index');
+//     })->name('admin.index');
+
 // Route::prefix('admin')->middleware('auth')->group(function () {
 //     Route::get('/', function () {
 //         return view('admin.index');
 //     })->name('admin.index');
+
+Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('admin.index');
 
     // Rutas de servicios
     Route::resource('services', ServiceAdminController::class)->names([
@@ -98,6 +102,6 @@ Route::prefix('admin')->group(function () {
         'update' => 'admin.blogs.update',
         'destroy' => 'admin.blogs.destroy',
         'show' => 'admin.blogs.show',
-    ]);    
-    
+    ]);
+
 });
