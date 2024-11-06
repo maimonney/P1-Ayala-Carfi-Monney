@@ -70,6 +70,30 @@
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
+
+                        <!-- Sección para editar las reservas -->
+                        <h3 class="mt-4">Reservas</h3>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Servicio</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($reservas as $reserva)
+                                    <tr>
+                                        <td>{{ $reserva->name }}</td>
+                                        <td>
+                                            <select name="reservas[{{ $reserva->pivot->service_id }}]" class="form-control">
+                                                <option value="pendiente" {{ $reserva->pivot->status == 'pendiente' ? 'selected' : '' }}>Pendiente</option>
+                                                <option value="completada" {{ $reserva->pivot->status == 'completada' ? 'selected' : '' }}>Completada</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 

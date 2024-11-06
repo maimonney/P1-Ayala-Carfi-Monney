@@ -59,27 +59,43 @@ class UsersController extends Controller
 
     public function edit(Users $user)
     {
-        return view('admin.users.edit', compact('user'));
+        $reserva = $user->services;
+         return view('admin.users.edit', compact('user', 'reserva'));
     }
 
-    public function update(Request $request, Users $user)
+    public function update(Request $request, $userId)
     {
-        $validated = $request->validate([
+        $user = Users::findOrFail($userId);
+    
+        $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|min:6|confirmed',
-            'role' => 'required|string',
+            'email' => 'required|email|max:255|unique:users,email,' . $userId,
+            'password' => 'nullable|confirmed|min:6',
+            'role' => 'required|in:user,admin',
         ]);
-
+    
         $user->update([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => $validated['password'] ? Hash::make($validated['password']) : $user->password,
-            'role' => $validated['role'],
+            'name' => $request->name,
+            'email' => $request->email,
+            'role' => $request->role,
         ]);
-
-        return redirect()->route('admin.users.index')->with('success', 'Usuario actualizado con éxito.');
+    
+        if ($request->filled('password')) {
+            $user->update([
+                'password' => bcrypt($request->password),
+            ]);
+        }
+    
+        if ($request->has('services')) {
+            foreach ($request->services as $serviceId => $status) {
+                $user->services()->updateExistingPivot($serviceId, ['status' => $status]);
+            }
+        }
+    
+        return redirect()->route('admin.users.index')->with('success', 'Usuario actualizado correctamente.');
     }
+    
+    
 
     public function destroy(Users $user)
     {

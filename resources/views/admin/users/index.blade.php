@@ -21,24 +21,41 @@
                 </div>
             </div>
         @else
-        <table class="table_cont">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Rol</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($users as $user)
+            <table class="table_cont">
+                <thead>
                     <tr>
-                        <td>{{ $user->id }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>{{ $user->role }}</td>
-                        <td>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Servico</th>
+                        <th>Rol</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($users as $user)
+                        <tr>
+                            <td>{{ $user->id }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>
+                                @if ($user->services->isNotEmpty())
+                                    <ul>
+                                        @foreach ($user->services as $service)
+                                            <div>
+                                                <label for="service_{{ $service->id }}">{{ $service->title }}</label>
+                                                <input type="text" name="services[{{ $service->id }}]"
+                                                    value="{{ $service->pivot->status }}">
+                                            </div>
+                                        @endforeach
+
+                                    </ul>
+                                @else
+                                    Sin servicio
+                                @endif
+                            </td>
+                            <td>{{ $user->role }}</td>
+                            <td>
                                 <div class="cont_btn_tab">
                                     <a href="{{ route('admin.users.edit', $user->id) }}"
                                         class="button btn_celeste me-4">Editar</a>
@@ -59,7 +76,8 @@
                                             <div class="cont_div cont_modal">
                                                 <div class="modal_header">
                                                     <h5 class="modal-title" id="deleteModalLabel">Confirmar Eliminación</h5>
-                                                    <button type="button" class="close_btn" data-dismiss="modal" aria-label="Close">
+                                                    <button type="button" class="close_btn" data-dismiss="modal"
+                                                        aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
@@ -82,10 +100,10 @@
                                 </div>
 
                             </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         @endif
     </div>
 

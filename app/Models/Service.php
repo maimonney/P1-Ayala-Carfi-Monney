@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Http\Controllers\UsersController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,17 +10,17 @@ class Service extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',       
-        'description',  
+        'title',
+        'description',
         'price', 
         'duration',
         'category',
         'image', 
-        'user_id',    
     ];
 
-    public function user()
+    public function users()
     {
-        return $this->belongsTo(UsersController::class);
+        return $this->belongsToMany(Users::class, 'reserva')
+                    ->withPivot('status');
     }
 }

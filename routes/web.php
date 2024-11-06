@@ -12,21 +12,20 @@ use App\Http\Controllers\Admin\ServiceAdminController;
 use App\Http\Controllers\Admin\BlogAdminController;
 use App\Http\Controllers\Admin\AdminController;
 
-// Rutas Públicas
 Route::get('/', [HomeController::class, "home"])->name('home');
 Route::get('/acerca-de', [HomeController::class, "about"])->name('about');
 Route::get('/contacto', [HomeController::class, "contact"])->name('contact');
-Route::get('/servicios', [ServiceController::class, 'show'])->name('servicios.vista');
 
-// Vista de servicios
+// servicios
 Route::get('/servicios', [ServiceController::class, 'index'])->name('servicios.vista');
 Route::get('/servicios/{id}', [ServiceController::class, 'vistaIndividual'])->name('servicios.show');
+Route::post('/servicios/reservar/{serviceId}', [ServiceController::class, 'reservarServicio'])->name('reservar.servicio');
 
-// Vista de blogs
+//blogs
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.vista');
 Route::get('/blogs/{id}', [BlogController::class, 'vistaIndividualBlog'])->name('blogs.show');
 
-// Ruta para enviar formulario de contacto
+//formulario de contacto
 Route::post('/contact', function (Request $request) {
     $request->validate([
         'name' => 'required|string|max:255',
@@ -37,12 +36,10 @@ Route::post('/contact', function (Request $request) {
     return redirect()->route('contact.sent');
 })->name('contact.submit');
 
-// Ruta para confirmación de envío
 Route::get('/contact/sent', function () {
     return view('sent');
 })->name('contact.sent');
 
-// Rutas de registro y autenticación
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register'])->name('register.submit');
 
@@ -50,25 +47,9 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Ruta de dashboard
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware('auth');
-
-// Rutas de administración
-
-// Route::prefix('admin')->group(function () {
-//     Route::get('/', function () {
-//         if (!Auth::check() || Auth::user()->role !== 'admin') {
-//             return redirect('/')->with('error', 'Acceso denegado');
-//         }
-//         return view('admin.index');
-//     })->name('admin.index');
-
-// Route::prefix('admin')->middleware('auth')->group(function () {
-//     Route::get('/', function () {
-//         return view('admin.index');
-//     })->name('admin.index');
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
@@ -103,5 +84,4 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         'destroy' => 'admin.blogs.destroy',
         'show' => 'admin.blogs.show',
     ]);
-
 });

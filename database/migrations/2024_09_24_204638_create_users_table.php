@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('name', 100);
             $table->string('email', 255)->unique();
             $table->string('password');
+            $table->foreignId('service_id')->nullable()->constrained()->onDelete('set null'); 
             $table->enum('role', ['user', 'admin'])->default('user');
             $table->timestamps();
         });
@@ -28,4 +29,3 @@ return new class extends Migration {
         Schema::dropIfExists('users');
     }
 };
-
