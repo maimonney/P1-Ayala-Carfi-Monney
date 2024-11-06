@@ -21,20 +21,5 @@ class ServiceController extends Controller
         return view('servicios.show', compact('service'));
     }
 
-    public function reservarServicio($serviceId)
-    {
-        $user = Auth::user();
-    
-        $service = Service::findOrFail($serviceId);
-    
-        if (!$service || !$user) {
-            return back()->with('error', 'El servicio o el usuario no existen.');
-        }
-    
-        $user->services()->attach($serviceId, ['status' => 'pendiente']);
-    
-        return redirect()->route('detalle.servicio', $serviceId)
-                         ->with('success', 'Gracias por contratar el servicio');
-    }
     
 }

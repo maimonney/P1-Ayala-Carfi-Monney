@@ -11,6 +11,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\Admin\ServiceAdminController;
 use App\Http\Controllers\Admin\BlogAdminController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\ReservaController;
 
 Route::get('/', [HomeController::class, "home"])->name('home');
 Route::get('/acerca-de', [HomeController::class, "about"])->name('about');
@@ -19,7 +20,7 @@ Route::get('/contacto', [HomeController::class, "contact"])->name('contact');
 // servicios
 Route::get('/servicios', [ServiceController::class, 'index'])->name('servicios.vista');
 Route::get('/servicios/{id}', [ServiceController::class, 'vistaIndividual'])->name('servicios.show');
-Route::post('/servicios/reservar/{serviceId}', [ServiceController::class, 'reservarServicio'])->name('reservar.servicio');
+Route::post('/servicios/reservar/{serviceId}', [ReservaController::class, 'reservarServicio'])->name('reservar.servicio');
 
 //blogs
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.vista');

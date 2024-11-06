@@ -43,7 +43,6 @@
                 @csrf
                 <button type="submit" class="button btn_lila">Reservar</button>
             </form>
-
         </div>
     </div>
     <!-- Footer -->
