@@ -11,7 +11,7 @@ class CreateReservaTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('service_id')->constrained()->onDelete('cascade'); 
-            $table->string('status');
+            $table->enum('status', ['pendiente', 'completada'])->default('pendiente');
             $table->timestamps();
         });
     }

@@ -1,7 +1,7 @@
 <div class="cont_footer">
     <div class="cont_logo_li">
         <div class="footer_image">
-            <img src="img/logo_1.png" alt="Logo">
+            <img src="/img/logo_1.png" alt="Logo">
         </div>
         <div class="footer_links">
             <ul>

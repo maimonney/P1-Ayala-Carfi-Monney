@@ -39,20 +39,18 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
-                                @if ($user->services->isNotEmpty())
+                                @if (!$user->reservas->isEmpty())
                                     <ul>
-                                        @foreach ($user->services as $service)
-                                            <div>
-                                                <label for="service_{{ $service->id }}">{{ $service->title }}</label>
-                                                <input type="text" name="services[{{ $service->id }}]"
-                                                    value="{{ $service->pivot->status }}">
-                                            </div>
+                                        @foreach ($user->reservas as $reserva)
+                                            <li>
+                                                {{ $reserva->service->title }} ({{ $reserva->status }})
+                                            </li>
                                         @endforeach
-
                                     </ul>
                                 @else
                                     Sin servicio
                                 @endif
+
                             </td>
                             <td>{{ $user->role }}</td>
                             <td>

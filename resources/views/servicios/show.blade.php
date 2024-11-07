@@ -39,10 +39,11 @@
                     </div>
                 </div>
             </div>
-            <form action="{{ route('reservar.servicio', $service->id) }}" method="POST">
-                @csrf
-                <button type="submit" class="button btn_lila">Reservar</button>
-            </form>
+            <form action="{{ route('reservar.servicio', ['serviceId' => $service->id]) }}" method="POST">
+    @csrf
+    <button type="submit" class="button btn_lila">Reservar</button>
+</form>
+
         </div>
     </div>
     <!-- Footer -->

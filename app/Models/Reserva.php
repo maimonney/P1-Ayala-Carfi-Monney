@@ -13,11 +13,11 @@ class Reserva extends Model
 
     public function user()
     {
-        return $this->belongsTo(Users::class, 'user_id'); 
+        return $this->belongsTo(Users::class);
     }
-
+    
     public function service()
     {
-        return $this->belongsTo(Service::class, 'service_id');
+        return $this->belongsTo(Service::class);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Users;
+use App\Models\Reserva;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -57,11 +58,17 @@ class UsersController extends Controller
         return view('admin.users.show', compact('user'));
     }
 
-    public function edit(Users $user)
-    {
-        $reserva = $user->services;
-         return view('admin.users.edit', compact('user', 'reserva'));
+    public function edit($userId)
+{
+    $user = Users::with('reservas')->find($userId);
+
+    if (!$user) {
+        return redirect()->route('admin.users.index')->with('error', 'Usuario no encontrado.');
     }
+
+    return view('admin.users.edit', compact('user'));
+}
+
 
     public function update(Request $request, $userId)
     {
@@ -86,11 +93,22 @@ class UsersController extends Controller
             ]);
         }
     
-        if ($request->has('services')) {
-            foreach ($request->services as $serviceId => $status) {
-                $user->services()->updateExistingPivot($serviceId, ['status' => $status]);
+        if ($request->has('reservas')) {
+            foreach ($request->reservas as $reservaId => $status) {
+                // Asegurarse de que el estado sea válido
+                if (!in_array($status, ['pendiente', 'completada'])) {
+                    return redirect()->route('admin.users.index')->with('error', 'Estado de reserva inválido.');
+                }
+        
+                // Encuentra la reserva y actualiza el estado
+                $reserva = Reserva::find($reservaId);
+                if ($reserva) {
+                    $reserva->status = $status;  
+                    $reserva->save();
+                }
             }
         }
+        
     
         return redirect()->route('admin.users.index')->with('success', 'Usuario actualizado correctamente.');
     }

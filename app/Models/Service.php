@@ -23,4 +23,9 @@ class Service extends Model
         return $this->belongsToMany(Users::class, 'reserva')
                     ->withPivot('status');
     }
+
+    public function reservas()
+{
+    return $this->hasMany(Reserva::class);
+}
 }

@@ -13,14 +13,14 @@ class Users extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->role === 'admin'; 
+        return $this->role === 'admin';
     }
 
-    public function services()
-    {
-        return $this->belongsToMany(Service::class, 'reserva')
-                    ->withPivot('status');
-    }
+    public function reservas()
+{
+    return $this->hasMany(Reserva::class, 'user_id');
+}
+
 
     public function blogs()
     {

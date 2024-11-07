@@ -22,6 +22,7 @@ Route::get('/servicios', [ServiceController::class, 'index'])->name('servicios.v
 Route::get('/servicios/{id}', [ServiceController::class, 'vistaIndividual'])->name('servicios.show');
 Route::post('/servicios/reservar/{serviceId}', [ReservaController::class, 'reservarServicio'])->name('reservar.servicio');
 
+
 //blogs
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.vista');
 Route::get('/blogs/{id}', [BlogController::class, 'vistaIndividualBlog'])->name('blogs.show');
