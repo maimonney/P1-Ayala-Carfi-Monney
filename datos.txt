@@ -10,3 +10,13 @@ Turno: Mañana
 Comisión: DWM4AP
 Docente: Carlos Ferrer
 Carácter de entrega (1er parcial)
+
+Cuentas:
+- sofia.carafi@davinci.edu.ar
+- sofi123
+
+- mailen.monney@davinci.edu.ar
+- mai123
+
+- daiana.ayala@davinci.edu.ar
+- day123

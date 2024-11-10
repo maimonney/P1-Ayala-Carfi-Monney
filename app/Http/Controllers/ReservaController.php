@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Reserva;
 use App\Models\Service;
+use App\Mail\ReservaConfirmacion; 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail; 
 use Illuminate\Http\Request;
 
 class ReservaController extends Controller
@@ -33,5 +35,15 @@ class ReservaController extends Controller
 
         return redirect()->route('servicios.show', $serviceId)
                          ->with('success', 'Gracias por contratar el servicio');
+    }
+
+    public function reservationProcess(int $id) 
+    {
+        $reserva = Reserva::findOrFail($id);
+
+        Mail::to($reserva->user->email)->send(new ReservaConfirmacion($reserva));
+
+        return to_route('admin.users.index')
+            ->with('feedback.message', 'La reserva se realizó con éxito y se ha enviado un correo de confirmación.');
     }
 }
