@@ -6,38 +6,23 @@ use App\Models\Reserva;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ReservaConfirmacion extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(
-        public Reserva $reserva
-    )
-    {}
+    public Reserva $reserva;
 
-    public function envelope(): Envelope
+    public function __construct(Reserva $reserva)
     {
-        return new Envelope(
-            subject: 'Confirmación de Reserva de servicio',
-            from: new Address('no-responder@novaservicio.com', 'Nova')
-        );
+        $this->reserva = $reserva;
     }
 
-    public function content(): Content
+    public function build()
     {
-        return new Content(
-            view: 'emails/reservaConfirmacion',
-            text: 'emails/reservaConfirmacion-text',
-        );
-    }
-
-      /**
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
+        return $this->from('no-responder@novaservicio.com', 'Nova')
+                    ->subject('Confirmación de Reserva de servicio')
+                    ->view('emails.reservaConfirmacion')
+                    ->text('emails.reservaConfirmacion-text');
     }
 }

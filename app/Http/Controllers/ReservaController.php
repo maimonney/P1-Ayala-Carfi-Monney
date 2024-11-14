@@ -18,34 +18,38 @@ class ReservaController extends Controller
     }
 
     public function reservarServicio($serviceId)
-    {
-        $user = Auth::user();
+{
+    $user = Auth::user();
 
-        if (!$user) {
-            return back()->with('error', 'Usuario no autenticado.');
-        }
-
-        $service = Service::findOrFail($serviceId);
-
-        Reserva::create([
-            'user_id' => $user->id,
-            'service_id' => $service->id,
-            'status' => 'pendiente',
-        ]);
-
-        return redirect()->route('servicios.show', $serviceId)
-                         ->with('success', 'Gracias por contratar el servicio');
+    if (!$user) {
+        return back()->with('error', 'Usuario no autenticado.');
     }
+
+    $service = Service::findOrFail($serviceId);
+
+    $reserva = Reserva::create([
+        'user_id' => $user->id,
+        'service_id' => $service->id,
+        'status' => 'pendiente',
+    ]);
+
+    Mail::to($user->email)->send(new ReservaConfirmacion($reserva));
+
+    return redirect()->route('servicios.show', $serviceId)
+                     ->with('success', 'Gracias por contratar el servicio. Se ha enviado una confirmación a tu correo.');
+}
 
     public function reservationProcess(int $id)
     {
-        if (!$reserva->user) {
+        $reserva = Reserva::find($id);
+
+        if (!$reserva || !$reserva->user) {
             return back()->with('error', 'No se encontró el usuario asociado a esta reserva.');
         }
 
         Mail::to($reserva->user->email)->send(new ReservaConfirmacion($reserva));
 
-        return to_route('admin.users.index')
+        return redirect()->route('admin.users.index')
             ->with('feedback.message', 'La reserva se realizó con éxito y se ha enviado un correo de confirmación.');
     }
 }

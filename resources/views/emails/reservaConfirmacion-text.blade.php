@@ -1,12 +1,12 @@
-# Tu reserva se Rrealió con exito
+<div>
+    # Tu reserva se realizó con éxito
 
-Hola usuario.
+    Hola, {{ $reserva->user->name }}.
 
-Tu reserva de la película <b>{{ $servicio->title }}</b> se registró con exito.
+    Tu reserva de la película <b>{{ $reserva->service->title }}</b> se registró con éxito.
 
-Guarda este mail como comprobante
+    Guarda este mail como comprobante.
 
-Atentamente,
-Tus amigos de DV Películas
-
+    Atentamente,
+    Tus amigos de DV Películas
 </div>
