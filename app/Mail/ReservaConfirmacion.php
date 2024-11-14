@@ -12,21 +12,32 @@ class ReservaConfirmacion extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $reserva;
+    public function __construct(
+        public Reserva $reserva
+    )
+    {}
 
-    public function __construct(Reserva $reserva)
+    public function envelope(): Envelope
     {
-        $this->reserva = $reserva;
+        return new Envelope(
+            subject: 'Confirmación de Reserva de servicio',
+            from: new Address('no-responder@novaservicio.com', 'Nova')
+        );
     }
 
-    public function build()
+    public function content(): Content
     {
-        return $this->subject('Confirmación de Reserva')
-                    ->markdown('emails.reserva.confirmacion')
-                    ->with([
-                        'serviceTitle' => $this->reserva->service->title,
-                        'userName' => $this->reserva->user->name,
-                        'reservationDate' => $this->reserva->created_at->format('d-m-Y'),
-                    ]);
+        return new Content(
+            view: 'emails/reservaConfirmacion',
+            text: 'emails/reservaConfirmacion-text',
+        );
+    }
+
+      /**
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     */
+    public function attachments(): array
+    {
+        return [];
     }
 }

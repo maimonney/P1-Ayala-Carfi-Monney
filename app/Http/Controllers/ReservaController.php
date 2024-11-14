@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Reserva;
 use App\Models\Service;
-use App\Mail\ReservaConfirmacion; 
+use App\Mail\ReservaConfirmacion;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail; 
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 
 class ReservaController extends Controller
@@ -37,9 +37,11 @@ class ReservaController extends Controller
                          ->with('success', 'Gracias por contratar el servicio');
     }
 
-    public function reservationProcess(int $id) 
+    public function reservationProcess(int $id)
     {
-        $reserva = Reserva::findOrFail($id);
+        if (!$reserva->user) {
+            return back()->with('error', 'No se encontró el usuario asociado a esta reserva.');
+        }
 
         Mail::to($reserva->user->email)->send(new ReservaConfirmacion($reserva));
 

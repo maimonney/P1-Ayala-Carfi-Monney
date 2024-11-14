@@ -7,11 +7,13 @@
 <div class="col-12">
     <!-- Nav -->
     <x-nav> </x-nav>
+   <div class="d-flex justify-content-center">
     @if (session('success'))
-        <div class="alert alert-success">
-            <p>{{ session('success') }}</p>
-        </div>
-    @endif
+    <div class="alert_correcto">
+        <p>{{ session('success') }}</p>
+    </div>
+@endif
+   </div>
 
     <div class="container">
         <div class="cont_vista">
