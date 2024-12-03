@@ -9,7 +9,7 @@ class Users extends Authenticatable
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'email', 'password', 'role'];
+    protected $fillable = ['name', 'email', 'password', 'role', 'avatar'];
 
     public function isAdmin()
     {

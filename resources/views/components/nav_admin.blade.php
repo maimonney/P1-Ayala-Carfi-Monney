@@ -11,6 +11,7 @@
                         <li class="nav-link"><a href="{{ route('admin.services.index') }}">Servicios</a></li>
                         <li class="nav-link"><a href="{{ route('admin.users.index') }}">Usuarios</a></li>
                         <li class="nav-link"><a href="{{ route('admin.blogs.index') }}">Blogs</a></li>
+                        <li class="nav-link"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
                     </ul>
 
                 </div>

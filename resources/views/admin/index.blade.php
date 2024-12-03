@@ -19,6 +19,7 @@
                         <a href="{{ route('admin.users.index') }}" class="button btn_celeste">Usuarios</a>
                         <a href="{{ route('admin.blogs.index') }}" class="button btn_verde">Blogs</a>
                     </div>
+                    <a href="{{ route('admin.dashboard') }}" class="button btn_rojo">Dashboard</a>
                 </div>
             </div>
         </div>

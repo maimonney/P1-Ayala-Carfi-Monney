@@ -32,6 +32,7 @@ class UsersFactory extends Factory
             'password' => Hash::make('password'), 
             'remember_token' => Str::random(10),
             'is_admin' => false, 
+            'avatar' => $this->faker->imageUrl(200, 200, 'people', true),
         ];
     }
 

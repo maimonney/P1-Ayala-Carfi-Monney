@@ -37,7 +37,7 @@ class AuthController extends Controller
                 return redirect()->intended(route('admin.index')); 
             }
 
-            return redirect()->intended('/servicios'); 
+            return redirect()->intended(route('perfil.user'));
         }
 
         return back()->withErrors([

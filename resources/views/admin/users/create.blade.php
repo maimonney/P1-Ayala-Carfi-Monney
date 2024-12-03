@@ -27,6 +27,21 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
+                    
+                     <!-- Avatar -->
+                     <div class="mb-3 select_form">
+                        <label for="avatar" class="form-label">Avatar</label>
+                        <div id="avatarPreview" class="mt-2" style="display: none;">
+                            <img id="preview" src="{{ asset('storage/'.$user->avatar) }}" alt="Previsualización de Avatar" class="img-thumbnail" style="max-width: 200px;">
+                        </div>
+                        <input type="file" name="avatar" id="avatar" class="form-control" accept="image/*" style="display: none;" onchange="previewAvatar(event)">
+                        <button type="button" class="button btn_lila mt-4" onclick="document.getElementById('avatar').click();">
+                            Seleccionar Avatar
+                        </button>
+                        @error('avatar')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
 
                     <!-- EMAIL -->
                     <div class="mb-3">

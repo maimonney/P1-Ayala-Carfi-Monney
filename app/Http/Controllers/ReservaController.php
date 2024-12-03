@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Reserva;
 use App\Models\Service;
+use App\Models\Users; 
 use App\Mail\ReservaConfirmacion;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -51,5 +52,17 @@ class ReservaController extends Controller
 
         return redirect()->route('admin.users.index')
             ->with('feedback.message', 'La reserva se realizó con éxito y se ha enviado un correo de confirmación.');
+    }
+
+    public function updateStatus(Request $request, $userId, $serviceId)
+    {
+        $user = Users::findOrFail($userId);
+        $service = Service::findOrFail($serviceId);
+
+        $user->services()->updateExistingPivot($service->id, ['status' => 'completada']);
+
+        return response()->json([
+            'message' => 'Estado de la reserva actualizado correctamente.',
+        ]);
     }
 }

@@ -7,13 +7,13 @@
 <div class="col-12">
     <!-- Nav -->
     <x-nav> </x-nav>
-   <div class="d-flex justify-content-center">
-    @if (session('success'))
-    <div class="alert_correcto">
-        <p>{{ session('success') }}</p>
+    <div class="d-flex justify-content-center">
+        @if (session('success'))
+            <div class="alert_correcto">
+                <p>{{ session('success') }}</p>
+            </div>
+        @endif
     </div>
-@endif
-   </div>
 
     <div class="container">
         <div class="cont_vista">
@@ -42,9 +42,9 @@
                 </div>
             </div>
             <form action="{{ route('reservar.servicio', ['serviceId' => $service->id]) }}" method="POST">
-    @csrf
-    <button type="submit" class="button btn_lila">Reservar</button>
-</form>
+                @csrf
+                <button type="submit" class="button btn_lila">Reservar</button>
+            </form>
 
         </div>
     </div>

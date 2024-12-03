@@ -32,6 +32,28 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="avatar" class="form-label">Avatar</label>
+                        <input type="file" name="avatar" id="avatar" class="form-control">
+                        @error('avatar')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    @if ($user->avatar)
+                        <div class="mb-3">
+                            <label class="form-label">Avatar Actual</label><br>
+                            <img src="{{ asset($user->avatar) }}" alt="Avatar Actual" class="img-fluid rounded-circle"
+                                style="width: 100px;">
+                        </div>
+                    @else
+                        <div class="mb-3">
+                            <label class="form-label">Avatar Actual</label><br>
+                            <img src="{{ asset('images/default-avatar.jpg') }}" alt="Avatar por defecto"
+                                class="img-fluid rounded-circle" style="width: 100px;">
+                        </div>
+                    @endif
+
+                    <div class="mb-3">
                         <label for="email" class="form-label">Correo Electrónico</label>
                         <input type="email" name="email" id="email" class="form-control"
                             value="{{ old('email', $user->email) }}" required>
@@ -92,8 +114,8 @@
                                 </tr>
                             @endforeach
                         </tbody>
-
                     </table>
+
 
                 </div>
             </div>

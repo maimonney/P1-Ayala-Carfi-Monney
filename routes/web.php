@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ServiceAdminController;
 use App\Http\Controllers\Admin\BlogAdminController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\ReservaController;
+use App\Http\Controllers\Admin\DashboardController;
 
 Route::get('/', [HomeController::class, "home"])->name('home');
 Route::get('/acerca-de', [HomeController::class, "about"])->name('about');
@@ -20,7 +21,10 @@ Route::get('/contacto', [HomeController::class, "contact"])->name('contact');
 // servicios
 Route::get('/servicios', [ServiceController::class, 'index'])->name('servicios.vista');
 Route::get('/servicios/{id}', [ServiceController::class, 'vistaIndividual'])->name('servicios.show');
-Route::post('/servicios/reservar/{serviceId}', [ReservaController::class, 'reservarServicio'])->name('reservar.servicio');
+Route::post('/servicios/reservar/{serviceId}', [ReservaController::class, 'reservarServicio'])
+    ->middleware('auth')
+    ->name('reservar.servicio');
+
 
 
 //blogs
@@ -47,14 +51,20 @@ Route::post('/register', [RegisterController::class, 'register'])->name('registe
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/perfil', [UsersController::class, 'perfil'])->name('perfil.user');
+Route::get('/editarPerfil/{user}', [UsersController::class, 'editPerfil'])->name('perfil.editar');
+Route::put('/editarPerfil/{user}', [UsersController::class, 'updatePerfil'])->name('perfil.update');
+
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth');
+Route::put('/reservas/{userId}/{serviceId}/update-status', [ReservaController::class, 'updateStatus']);
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+
+     // Ruta para el dashboard
+     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
     // Rutas de servicios
     Route::resource('services', ServiceAdminController::class)->names([

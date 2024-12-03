@@ -33,7 +33,13 @@
 
                     @if (auth()->check())
                         <li class="nav-link nombre_nav">
-                            Hola, <strong><a href="{{ route('admin.index') }}">{{ auth()->user()->name }}</a></strong>!
+                            Hola, <strong>
+                                @if (auth()->user()->role === 'admin')
+                                    <a href="{{ route('admin.index') }}">{{ auth()->user()->name }}</a>
+                                @else
+                                    <a href="{{ route('perfil.user') }}">{{ auth()->user()->name }}</a>
+                                @endif
+                            </strong>!
                         </li>
                     @endif
 

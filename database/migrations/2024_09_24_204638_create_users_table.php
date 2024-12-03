@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->string('password');
             $table->foreignId('service_id')->nullable()->constrained()->onDelete('set null'); 
             $table->enum('role', ['user', 'admin'])->default('user');
+            $table->string('avatar')->nullable();
             $table->timestamps();
         });
     }

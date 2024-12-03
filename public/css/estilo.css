@@ -570,6 +570,10 @@ input[type="password"]:focus,
     opacity: 1;
 }
 
+.btn_edit{
+    width: 30px;
+}
+
 .modal_header {
     display: flex;
     justify-content: space-between;
