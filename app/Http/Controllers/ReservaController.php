@@ -36,6 +36,7 @@ class ReservaController extends Controller
 
     Mail::to($user->email)->send(new ReservaConfirmacion($reserva));
 
+    
     return redirect()->route('servicios.show', $serviceId)
                      ->with('success', 'Gracias por contratar el servicio. Se ha enviado una confirmación a tu correo.');
 }
