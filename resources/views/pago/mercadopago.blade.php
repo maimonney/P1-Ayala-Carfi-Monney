@@ -1,13 +1,13 @@
 @extends('layouts.main')
 
-@section('title', 'prueba de integracion MP')
+@section('title', 'Integración Mercado Pago')
 
 @section('content')
 
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <h2 class="mb-3">Prueba de Integración con Mercado Pago</h2>
+            <h2 class="mb-3">Integración Mercado Pago</h2>
             <table class="table table-bordered table-striped mb-3">
                 <thead>
                     <tr>
@@ -32,14 +32,16 @@
                     </tr>
                 </tbody>
             </table>
+
+            <!-- Botón de Mercado Pago -->
             <div id="mercadopago-button"></div>
 
             <script src="https://sdk.mercadopago.com/js/v2"></script>
             <script>
-                const mp = new MercadoPago('<?= $mpPublicKey;?>');
+                const mp = new MercadoPago('{{ $mpPublicKey }}');
                 mp.bricks().create('wallet', 'mercadopago-button', {
                     initialization: {
-                        preferenceId: '<?= $preference->id;?>',
+                        preferenceId: '{{ $preference['id'] }}',
                     }
                 });
             </script>

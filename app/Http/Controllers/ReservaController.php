@@ -9,6 +9,7 @@ use App\Mail\ReservaConfirmacion;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
+use App\Payment\MercadoPagoPayment;
 
 class ReservaController extends Controller
 {
@@ -20,26 +21,54 @@ class ReservaController extends Controller
 
     public function reservarServicio($serviceId)
 {
+    // Obtener el usuario autenticado
     $user = Auth::user();
-
     if (!$user) {
         return back()->with('error', 'Usuario no autenticado.');
     }
 
+    // Obtener el servicio
     $service = Service::findOrFail($serviceId);
 
+    // Crear la reserva en la base de datos
     $reserva = Reserva::create([
         'user_id' => $user->id,
         'service_id' => $service->id,
         'status' => 'pendiente',
     ]);
 
-    Mail::to($user->email)->send(new ReservaConfirmacion($reserva));
+    // Enviar correo de confirmación
+    try {
+        Mail::to($user->email)->send(new ReservaConfirmacion($reserva));
+    } catch (\Exception $e) {
+        return back()->with('error', 'No se pudo enviar el correo de confirmación: ' . $e->getMessage());
+    }
+
+    // Crear la preferencia de pago
+    $mercadoPago = new MercadoPagoPayment();
+    $item = [
+        [
+            'id' => $service->id,
+            'title' => $service->title,
+            'quantity' => 1,
+            'unit_price' => $service->price,
+            'currency_id' => 'ARS',
+        ]
+    ];
+    $mercadoPago->setItems($item);
+    $mercadoPago->setBackUrls(
+        route('mercadopago.success'),
+        route('mercadopago.pending'),
+        route('mercadopago.failure')
+    );
+
+    $preference = $mercadoPago->createPreference();
+
+    // Redirigir al usuario al checkout de Mercado Pago
+    return redirect($preference['init_point']);
+}
 
     
-    return redirect()->route('servicios.show', $serviceId)
-                     ->with('success', 'Gracias por contratar el servicio. Se ha enviado una confirmación a tu correo.');
-}
 
     public function reservationProcess(int $id)
     {

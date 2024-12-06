@@ -21,8 +21,10 @@ class MercadoPagoPayment
         $this->accessToken = config('mercadopago.access_token');
         $this->publicKey = config('mercadopago.public_key');
 
-        if(strlen($this->accessToken) == 0) throw new \Exception('No está definido el token de acceso de Mercado Pago. Creá la clave MERCADOPAGO_ACCESS_TOKEN en el [.env].');
-        if(strlen($this->publicKey) == 0) throw new \Exception('No está definida la clave pública de Mercado Pago. Creá la clave MERCADOPAGO_PUBLIC_KEY en el [.env].');
+        if (strlen($this->accessToken) == 0)
+            throw new \Exception('No está definido el token de acceso de Mercado Pago. Creá la clave MERCADOPAGO_ACCESS_TOKEN en el [.env].');
+        if (strlen($this->publicKey) == 0)
+            throw new \Exception('No está definida la clave pública de Mercado Pago. Creá la clave MERCADOPAGO_PUBLIC_KEY en el [.env].');
 
         MercadoPagoConfig::setAccessToken($this->accessToken);
 
@@ -38,12 +40,17 @@ class MercadoPagoPayment
         $this->items = $items;
     }
 
-    public function setBackUrls(?string $success = null, ?string $pending = null, ?string $failure 
-= null)
-    {
-        if(is_string($success)) $this->backUrls['success'] = $success;
-        if(is_string($pending)) $this->backUrls['pending'] = $pending;
-        if(is_string($failure)) $this->backUrls['failure'] = $failure;
+    public function setBackUrls(
+        ?string $success = null,
+        ?string $pending = null,
+        ?string $failure = null
+    ) {
+        if (is_string($success))
+            $this->backUrls['success'] = $success;
+        if (is_string($pending))
+            $this->backUrls['pending'] = $pending;
+        if (is_string($failure))
+            $this->backUrls['failure'] = $failure;
     }
 
     public function withAutoReturn()
@@ -53,13 +60,16 @@ class MercadoPagoPayment
 
     public function createPreference(): Preference
     {
-        if(count($this->items) == 0) throw new \Exception('Hay que definir los items del cobro. Usá el método setItems() para asignarlos.');
+        if (count($this->items) == 0)
+            throw new \Exception('Hay que definir los items del cobro. Usá el método setItems() para asignarlos.');
 
         $config = [
             'items' => $this->items,
         ];
-        if(count($this->backUrls)) $config['back_urls'] = $this->backUrls;
-        if($this->autoReturn) $config['auto_return'] = 'approved';
+        if (count($this->backUrls))
+            $config['back_urls'] = $this->backUrls;
+        if ($this->autoReturn)
+            $config['auto_return'] = 'approved';
 
         $preferenceFactory = new PreferenceClient();
         return $preferenceFactory->create($config);
