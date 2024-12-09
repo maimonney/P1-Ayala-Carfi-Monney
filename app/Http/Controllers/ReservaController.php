@@ -6,6 +6,7 @@ use App\Models\Reserva;
 use App\Models\Service;
 use App\Models\Users; 
 use App\Mail\ReservaConfirmacion;
+use App\Mail\ReservaConfirmacionOperador;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
@@ -20,53 +21,60 @@ class ReservaController extends Controller
     }
 
     public function reservarServicio($serviceId)
-{
-    // Obtener el usuario autenticado
-    $user = Auth::user();
-    if (!$user) {
-        return back()->with('error', 'Usuario no autenticado.');
+    {
+        // Obtener el usuario autenticado
+        $user = Auth::user();
+        if (!$user) {
+            return back()->with('error', 'Usuario no autenticado.');
+        }
+    
+        // Obtener el servicio
+        $service = Service::findOrFail($serviceId);
+    
+        // Crear la reserva en la base de datos
+        $reserva = Reserva::create([
+            'user_id' => $user->id,
+            'service_id' => $service->id,
+            'status' => 'pendiente',
+        ]);
+    
+        // Enviar correo de confirmación al usuario
+        try {
+            Mail::to($user->email)->send(new ReservaConfirmacion($reserva));
+        } catch (\Exception $e) {
+            return back()->with('error', 'No se pudo enviar el correo de confirmación: ' . $e->getMessage());
+        }
+
+        // Enviar correo de confirmación al operador
+        try {
+            Mail::to('mailen.monney@davinci.edu.ar')->send(new ReservaConfirmacionOperador($reserva));
+        } catch (\Exception $e) {
+            return back()->with('error', 'No se pudo enviar el correo de confirmación: ' . $e->getMessage());
+        }
+    
+        // Crear la preferencia de pago en MercadoPago
+        $mercadoPago = new MercadoPagoPayment();
+        $item = [
+            [
+                'id' => $service->id,
+                'title' => $service->title,
+                'quantity' => 1,
+                'unit_price' => $service->price,
+                'currency_id' => 'ARS',
+            ]
+        ];
+        $mercadoPago->setItems($item);
+        $mercadoPago->setBackUrls(
+            route('mercadopago.success'),
+            route('mercadopago.pending'),
+            route('mercadopago.failure')
+        );
+    
+        $preference = $mercadoPago->createPreference();
+
+        return redirect($preference->init_point);
     }
-
-    // Obtener el servicio
-    $service = Service::findOrFail($serviceId);
-
-    // Crear la reserva en la base de datos
-    $reserva = Reserva::create([
-        'user_id' => $user->id,
-        'service_id' => $service->id,
-        'status' => 'pendiente',
-    ]);
-
-    // Enviar correo de confirmación
-    try {
-        Mail::to($user->email)->send(new ReservaConfirmacion($reserva));
-    } catch (\Exception $e) {
-        return back()->with('error', 'No se pudo enviar el correo de confirmación: ' . $e->getMessage());
-    }
-
-    // Crear la preferencia de pago
-    $mercadoPago = new MercadoPagoPayment();
-    $item = [
-        [
-            'id' => $service->id,
-            'title' => $service->title,
-            'quantity' => 1,
-            'unit_price' => $service->price,
-            'currency_id' => 'ARS',
-        ]
-    ];
-    $mercadoPago->setItems($item);
-    $mercadoPago->setBackUrls(
-        route('mercadopago.success'),
-        route('mercadopago.pending'),
-        route('mercadopago.failure')
-    );
-
-    $preference = $mercadoPago->createPreference();
-
-    // Redirigir al usuario al checkout de Mercado Pago
-    return redirect($preference['init_point']);
-}
+    
 
     
 

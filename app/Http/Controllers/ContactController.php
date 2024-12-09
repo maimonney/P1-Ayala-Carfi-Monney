@@ -10,18 +10,19 @@ use App\Mail\ContactNotification;
 class ContactController extends Controller
 {
     public function submit(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'message' => 'required|string|max:1000',
-        ]);
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'message' => 'required|string|max:1000',
+    ]);
 
-        Mail::to($validated['email'])
-            ->send(new ContactConfirmation($validated));
+    // dd($validated);
 
-            Mail::to('mailen.monney@davinci.edu.ar')->send(new ContactNotification($validated));
+    Mail::to($validated['email'])->send(new ContactConfirmation($validated));
 
-        return redirect()->route('contact.sent');
-    }
+    Mail::to('mailen.monney@davinci.edu.ar')->send(new ContactNotification($validated));
+
+    return redirect()->route('contact.sent');
+}
 }

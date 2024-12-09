@@ -5,11 +5,11 @@ namespace App\Payment;
 use MercadoPago\Client\Preference\PreferenceClient;
 use MercadoPago\MercadoPagoConfig;
 use MercadoPago\Resources\Preference;
-use Monolog\Processor\UidProcessor;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 
 class MercadoPagoPayment
 {
-
     private string $accessToken;
     private string $publicKey;
     private array $items = [];
@@ -18,7 +18,7 @@ class MercadoPagoPayment
 
     public function __construct()
     {
-        $this->accessToken = config('mercadopago.access_token');
+        $this->accessToken = $this->getAccessToken();
         $this->publicKey = config('mercadopago.public_key');
 
         if (strlen($this->accessToken) == 0)
@@ -27,7 +27,39 @@ class MercadoPagoPayment
             throw new \Exception('No está definida la clave pública de Mercado Pago. Creá la clave MERCADOPAGO_PUBLIC_KEY en el [.env].');
 
         MercadoPagoConfig::setAccessToken($this->accessToken);
+    }
 
+    private function getAccessToken(): string
+    {
+        // Verificar si el token está en caché y si aún es válido
+        if ($token = Cache::get('mercadopago_access_token')) {
+            return $token;
+        }
+
+        // Si no está en caché o es inválido, renovarlo
+        $this->refreshAccessToken();
+        return Cache::get('mercadopago_access_token'); // Regresar el token recién renovado
+    }
+
+    private function refreshAccessToken()
+    {
+        // Realizar la solicitud para renovar el token utilizando el refresh_token
+        $response = Http::asForm()->post('https://api.mercadopago.com/v1/oauth/token', [
+            'grant_type' => 'refresh_token',
+            'client_id' => config('mercadopago.client_id'),
+            'client_secret' => config('mercadopago.client_secret'),
+            'refresh_token' => config('mercadopago.refresh_token'),  // Asegúrate de tener el refresh_token en el .env
+        ]);
+
+        if ($response->failed()) {
+            throw new \Exception('Error al renovar el token de acceso de Mercado Pago: ' . $response->body());
+        }
+
+        // Obtener el nuevo access_token y almacenarlo en caché
+        $newAccessToken = $response->json()['access_token'];
+        Cache::put('mercadopago_access_token', $newAccessToken, now()->addHour());  // Guardar en cache por 1 hora
+
+        $this->accessToken = $newAccessToken;  // Asignar el nuevo token
     }
 
     public function getPublicKey(): string
@@ -74,6 +106,4 @@ class MercadoPagoPayment
         $preferenceFactory = new PreferenceClient();
         return $preferenceFactory->create($config);
     }
-
-
 }

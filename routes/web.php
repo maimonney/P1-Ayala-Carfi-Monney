@@ -27,8 +27,6 @@ Route::post('/servicios/reservar/{serviceId}', [ReservaController::class, 'reser
     ->middleware('auth')
     ->name('reservar.servicio');
 
-
-
 //blogs
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.vista');
 Route::get('/blogs/{id}', [BlogController::class, 'vistaIndividualBlog'])->name('blogs.show');
