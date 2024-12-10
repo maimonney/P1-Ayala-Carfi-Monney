@@ -40,7 +40,7 @@ class MercadoPagoPayment
 
     private function refreshAccessToken()
     {
-        $response = Http::asForm()->post('https://api.mercadopago.com/v1/oauth/token', [
+        $response = Http::asForm()->post('https://api.mercadopago.com/oauth/token', [
             'grant_type' => 'refresh_token',
             'client_id' => config('mercadopago.client_id'),
             'client_secret' => config('mercadopago.client_secret'),
@@ -48,13 +48,38 @@ class MercadoPagoPayment
         ]);
 
         if ($response->failed()) {
-            throw new \Exception('Error al renovar el token de acceso de Mercado Pago: ' . $response->body());
+            \Log::error('Error al renovar el token de acceso de Mercado Pago', [
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
+            throw new \Exception('Error al renovar el token de acceso de Mercado Pago. Por favor, revisa las credenciales o el refresh_token.');
         }
 
         $newAccessToken = $response->json()['access_token'];
-        Cache::put('access_token', $newAccessToken, now()->addHour()); 
+        $newRefreshToken = $response->json()['refresh_token'];
 
-        $this->accessToken = $newAccessToken; 
+        // Almacena los nuevos tokens en caché
+        Cache::put('access_token', $newAccessToken, now()->addHour());
+        Cache::put('refresh_token', $newRefreshToken, now()->addDays(30)); // Si aplica
+
+        // Actualiza las variables locales
+        $this->accessToken = $newAccessToken;
+
+        // Actualiza los valores en el archivo .env
+        $this->updateEnv('MERCADOPAGO_ACCESS_TOKEN', $newAccessToken);
+        $this->updateEnv('MERCADOPAGO_REFRESH_TOKEN', $newRefreshToken);
+    }
+
+    private function updateEnv($key, $value)
+    {
+        $path = base_path('.env');
+        if (file_exists($path)) {
+            file_put_contents($path, preg_replace(
+                "/^{$key}=.*/m",
+                "{$key}={$value}",
+                file_get_contents($path)
+            ));
+        }
     }
 
     public function getPublicKey(): string
