@@ -19,7 +19,9 @@
                         <a href="{{ route('admin.users.index') }}" class="button btn_celeste">Usuarios</a>
                         <a href="{{ route('admin.blogs.index') }}" class="button btn_verde">Blogs</a>
                     </div>
+                    <div class="cont_btn_admin">
                     <a href="{{ route('admin.dashboard') }}" class="button btn_rojo">Dashboard</a>
+                    </div>
                 </div>
             </div>
         </div>
