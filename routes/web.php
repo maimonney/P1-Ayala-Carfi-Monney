@@ -53,10 +53,16 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::put('/reservas/{userId}/{serviceId}/update-status', [ReservaController::class, 'updateStatus']);
 
 //rutas de mercadopago
-Route::get('mercadopago/create/{serviceId}', [MercadoPagoController::class, 'createPayment'])->name('mercadopago.create');
-Route::get('mercadopago/success', [MercadoPagoController::class, 'successProcess'])->name('mercadopago.success');
-Route::get('mercadopago/pending', [MercadoPagoController::class, 'pendingProcess'])->name('mercadopago.pending');
-Route::get('mercadopago/failure', [MercadoPagoController::class, 'failureProcess'])->name('mercadopago.failure');
+Route::get('pago/mercadopago', [MercadoPagoController::class, 'show'])
+->name('pago.mercadopago.show');
+Route::get('pago/mercadopago/v2', [MercadoPagoController::class, 'showV2'])
+->name('pago.mercadopago.show.v2');
+Route::get('test/mercadopago/success', [MercadoPagoController::class, 'successProcess'])
+->name('test.mercadopago.successProcess');
+Route::get('test/mercadopago/pending', [MercadoPagoController::class, 'pendingProcess'])
+->name('test.mercadopago.pendingProcess');
+Route::get('test/mercadopago/failure', [MercadoPagoController::class, 'failureProcess']);
+
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
