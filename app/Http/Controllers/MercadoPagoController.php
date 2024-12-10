@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 function createPayment($serviceId)
 {
+
     // Crear instancia de MercadoPagoPayment
     $mercadoPago = new MercadoPagoPayment();
 

@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\MercadoPagoController;
+use App\Http\Controllers\ContactController;
 
 Route::get('/', [HomeController::class, "home"])->name('home');
 Route::get('/acerca-de', [HomeController::class, "about"])->name('about');
@@ -26,22 +27,12 @@ Route::post('/servicios/reservar/{serviceId}', [ReservaController::class, 'reser
     ->middleware('auth')
     ->name('reservar.servicio');
 
-
-
 //blogs
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.vista');
 Route::get('/blogs/{id}', [BlogController::class, 'vistaIndividualBlog'])->name('blogs.show');
 
 //formulario de contacto
-Route::post('/contact', function (Request $request) {
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|max:255',
-        'message' => 'required|string',
-    ]);
-
-    return redirect()->route('contact.sent');
-})->name('contact.submit');
+Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 
 Route::get('/contact/sent', function () {
     return view('sent');

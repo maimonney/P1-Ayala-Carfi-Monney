@@ -7,7 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ReservaConfirmacion extends Mailable
+class ReservaConfirmacionOperador extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -22,6 +22,6 @@ class ReservaConfirmacion extends Mailable
     {
         return $this->from('no-responder@novaservicio.com', 'Nova')
                     ->subject('Confirmación de Reserva de servicio')
-                    ->view('emails.reservaConfirmacion');
+                    ->view('emails.reservaConfirmacion-text');
     }
 }

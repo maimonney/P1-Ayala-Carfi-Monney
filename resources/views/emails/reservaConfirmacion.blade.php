@@ -1,9 +1,7 @@
 <div style=" font-family: Arial, sans-serif; max-width: 600px; background-color: #fdf0f5; border: 2px solid #7e52f5; border-radius: 15px; padding: 20px; text-align: center;">
-    <div style="padding: 15px 0;">
-        <img src="/img/logo_1.png" alt="Nova Logo" style="height: 60px; margin-bottom: 15px;">
-    </div>
+    <h1 style="color: #7e52f5; font-size: 30px; margin: 20px 0;">Nova</h1>
 
-    <h1 style="color: #7e52f5; font-size: 26px; margin: 20px 0;">¡Reserva Confirmada!</h1>
+    <h2 style="color: #7e52f5; font-size: 26px; margin: 20px 0;">¡Reserva Confirmada!</h2>
 
     <p style="font-size: 18px; line-height: 1.6; color: #333;">
         Hola <b>{{ $reserva->user->name }}</b>,
