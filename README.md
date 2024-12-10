@@ -66,10 +66,8 @@ Este proyecto es una aplicación completa desarrollada con **Laravel** y **MySQL
 - **Integración de pagos**: Mercado Pago.  
 
 ---
-
 ## **Requisitos para la instalación**
 
 1. **Clonar el repositorio**:
    ```bash
-[https://github.com/maimonney/P1-Ayala-Carfi-Monney.git]
-
+  https://github.com/maimonney/P1-Ayala-Carfi-Monney.git
