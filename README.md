@@ -70,4 +70,5 @@ Este proyecto es una aplicación completa desarrollada con **Laravel** y **MySQL
 
 1. **Clonar el repositorio**:
    ```bash
-  https://github.com/maimonney/P1-Ayala-Carfi-Monney.git
+   git clone https://github.com/maimonney/P1-Ayala-Carfi-Monney.git
+
