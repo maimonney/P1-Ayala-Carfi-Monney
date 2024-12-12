@@ -55,8 +55,6 @@ Route::put('/reservas/{userId}/{serviceId}/update-status', [ReservaController::c
 //rutas de mercadopago
 Route::get('pago/mercadopago', [MercadoPagoController::class, 'show'])
 ->name('pago.mercadopago.show');
-Route::get('pago/mercadopago/v2', [MercadoPagoController::class, 'showV2'])
-->name('pago.mercadopago.show.v2');
 Route::get('mercadopago/success', [MercadoPagoController::class, 'successProcess'])->name('mercadopago.success');
 Route::get('mercadopago/pending', [MercadoPagoController::class, 'pendingProcess'])->name('mercadopago.pending');
 Route::get('mercadopago/failure', [MercadoPagoController::class, 'failureProcess'])->name('mercadopago.failure');

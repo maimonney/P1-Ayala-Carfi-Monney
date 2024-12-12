@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Reserva;
 use App\Models\Service;
-use App\Models\Users; 
+use App\Models\Users;
 use App\Mail\ReservaConfirmacion;
 use App\Mail\ReservaConfirmacionOperador;
 use Illuminate\Support\Facades\Auth;
@@ -27,17 +27,17 @@ class ReservaController extends Controller
         if (!$user) {
             return back()->with('error', 'Usuario no autenticado.');
         }
-    
+
         // Obtener el servicio
         $service = Service::findOrFail($serviceId);
-    
+
         // Crear la reserva en la base de datos
         $reserva = Reserva::create([
             'user_id' => $user->id,
             'service_id' => $service->id,
             'status' => 'pendiente',
         ]);
-    
+
         // Enviar correo de confirmación al usuario
         try {
             Mail::to($user->email)->send(new ReservaConfirmacion($reserva));
@@ -51,7 +51,7 @@ class ReservaController extends Controller
         } catch (\Exception $e) {
             return back()->with('error', 'No se pudo enviar el correo de confirmación: ' . $e->getMessage());
         }
-    
+
         // Crear la preferencia de pago en MercadoPago
         $mercadoPago = new MercadoPagoPayment();
         $item = [
@@ -59,24 +59,26 @@ class ReservaController extends Controller
                 'id' => $service->id,
                 'title' => $service->title,
                 'quantity' => 1,
-                'unit_price' => $service->price,
+                'unit_price' => floatval($service->price),
                 'currency_id' => 'ARS',
             ]
         ];
+
+        // dd($item);
         $mercadoPago->setItems($item);
         $mercadoPago->setBackUrls(
             route('mercadopago.success'),
             route('mercadopago.pending'),
             route('mercadopago.failure')
         );
-    
+
         $preference = $mercadoPago->createPreference();
 
         return redirect($preference->init_point);
     }
-    
 
-    
+
+
 
     public function reservationProcess(int $id)
     {

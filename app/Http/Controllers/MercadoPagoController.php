@@ -11,81 +11,44 @@ use MercadoPago\MercadoPagoConfig;
 
 class MercadoPagoController extends Controller
 {
-    public function show()
+    public function show(Request $request)
     {
-        $servicios = Service::whereIn('id', [1,3])->get();
+        $serviceIds = $request->input('ids', []);
+        $services = Service::whereIn('id', $serviceIds)->get();
 
         $items = [];
-        foreach ($servicios as $servicio) {
+        foreach ($services as $service) {
             $items[] = [
-                'id' => $servicio->id,
-                'title' => $servicio->title,
-                'unit_price' => $servicio->price,
+                'id' => $service->id,
+                'title' => $service->title,
+                'unit_price' => floatval($service->price),
                 'quantity' => 1,
+                'currency_id' => 'ARS',
             ];
         }
 
         try {
-            MercadoPagoConfig::setAccessToken(config('mercadopago.acces_token'));
+            MercadoPagoConfig::setAccessToken(config('mercadopago.access_token'));
 
             $preferenceFactory = new PreferenceClient;
-
             $preference = $preferenceFactory->create([
                 'items' => $items,
                 'back_urls' => [
-        'success' => route('mercadopago.success'),
-        'pending' => route('mercadopago.pending'),
-        'failure' => route('mercadopago.failure'),
-    ],
+                    'success' => route('mercadopago.success'),
+                    'pending' => route('mercadopago.pending'),
+                    'failure' => route('mercadopago.failure'),
+                ],
                 'auto_return' => 'approved',
             ]);
-        } catch(\Throwable $e){
+        } catch (\Throwable $e) {
             dd($e);
         }
 
-        return view('test.mercadopago',[
-            'servicios' => $servicios,
+        return view('pago.mercadopago', [
+            'servicios' => $services,
             'preference' => $preference,
-            'mpPublicKey' => config('mercadopago.public_key')
+            'mpPublicKey' => config('mercadopago.public_key'),
         ]);
-    }
-
-    public function showV2()
-    {
-        $servicios = Service::whereIn('id', [1, 3])->get();
-
-        $items = [];
-
-        foreach($servicios as $servicio) {
-            $items[] = [
-                'id' => $servicio->id,
-                'title' => $servicio->title,
-                'unit_price' => $servicio->price,
-                'quantity' => 1,
-            ];
-        }
-
-        try {
-            $payment = new MercadoPagoPayment;
-            $payment->setItems($items);
-            $payment->setBackUrls(
-                success: route('mercadopago.success'),
-                pending: route('mercadopago.pending'),
-                failure: route('mercadopago.failure')
-            );
-            $payment->withAutoReturn();
-
-            $preference = $payment->createPreference();
-        } catch(\Throwable $e) {
-            dd($e);
-        }
-
-        return view('test.mercadopago', [
-            'servicios' => $servicios,
-            'preference' => $preference,
-            'mpPublicKey' => $payment->getPublicKey(),
-        ]);
-
     }
 
     public function successProcess(Request $request)

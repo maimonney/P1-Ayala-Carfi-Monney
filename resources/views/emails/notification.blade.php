@@ -4,15 +4,15 @@
 
 <div>
 <h2 style="color: #7e52f5; font-size: 26px; margin: 20px 0;">Nuevo mensaje recibido</h2>
-<!-- <p style="font-size: 14px; color: #777;">
-        <b>{{$name}}</b>
-    </p> -->
+<p style="font-size: 14px; color: #777;">
+        <b>{!! $name !!}</b>
+    </p>
     <p style="font-size: 16px; line-height: 1.6; color: #555;">
     Un usuario quiere ponerse en contacto.
     </p>
 
-    <!-- <p style="font-size: 14px; color: #777;">
-        {{$message}}
-    </p> -->
+    <p style="font-size: 14px; color: #777;">
+        {!! $message !!}
+    </p>
 </div>
 </div>
