@@ -2,11 +2,6 @@
 
 ### **Datos del Proyecto**
 - **Autores**: Daiana Ayala, Sofía Carafi y Mailen Monney  
-- **Año**: 2024  
-- **Comisión**: DWM4AP  
-- **Profesor**: Carlos Ferrer  
-- **Materia**: Portales y Comercio Electrónico  
-
 ---
 
 ## **Descripción del Proyecto**
